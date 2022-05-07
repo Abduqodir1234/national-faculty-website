@@ -13,15 +13,20 @@
     <code>docker-compose -f docker.yml down</code><br> <br>
     </li>
     <li>
+         <b>Install dependencies</b>
+          <br>
+          <code>npm i</code>
+    </li>
+    <li>
         <b>Run project</b>
         <br>
         <b>1.Run project in seperate terminal</b>
         <br>
-        <code>npm i && tsc && npm start</code>
+        <code>tsc && npm start</code>
         <br><br>
         <b>2.Run dev-mode project in seperate terminal</b>
         <br>
-        <code>npm i && npm run dev</code>
+        <code>npm run dev</code>
     </li>
     
 </ol>
