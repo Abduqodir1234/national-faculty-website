@@ -1,0 +1,11 @@
+export const teacherListLimit=10
+export const departmentMajorsLimit = 10
+export const adminstrationListLimit=10
+export const contestListLimit=10
+export const talentedStudentListLimit=10
+export const resourceCategoryListLimit = 10
+export const resourcesListLimit=10
+export const newsPaginationLimit = 10
+export const majorsListLimit=10
+export const defaultLang = "uz"
+export const departmentSubjectDegrees = ["bachelor","master","doctoral"]
