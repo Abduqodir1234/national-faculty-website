@@ -1,5 +1,7 @@
 <h1>Database design</h1>
 <a href="https://dbdiagram.io/d/625cb77a2514c9790345e2b7">Link</a>
+<h1>API documentation using Postman</h1>
+<a href="https://documenter.getpostman.com/view/15677950/UyxdLpaA">Link</a>
 <br>
 <h1>To run project</h1>
 <ol>
