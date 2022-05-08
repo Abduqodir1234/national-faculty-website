@@ -6,7 +6,7 @@ import ResponseService from "./response";
 
 class AboutService extends BaseService{
     constructor(){
-        super(About)
+        super(About);
     }
 
     async createOnlyOneData<T>(data:T){

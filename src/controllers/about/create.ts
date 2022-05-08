@@ -10,3 +10,4 @@ const aboutCreate = async (req:RequestWithUser,res:Response) =>{
     return res.status(status).json({error,message,data})
 }
 export default aboutCreate;
+
