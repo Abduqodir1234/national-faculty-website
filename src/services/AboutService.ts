@@ -32,6 +32,8 @@ class AboutService extends BaseService{
     async get(req:Request){
         try{
             const data = await About.findOne({},{desc:`$desc_${req.params.lang}`})
+            if(!data)
+                return ResponseService.notFound()
             return ResponseService.responseWithData(data)
         } catch(e){
             return ResponseService.internalServerError(e)

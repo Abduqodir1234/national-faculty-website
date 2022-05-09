@@ -32,7 +32,7 @@ class ResourceCategoryService extends BaseService{
         }
    }
 
-   async getbyId(req:Request){
+   async getById(req:Request){
     try{
         const {lang,id} = req.params as unknown as {lang:Lang["types"],id:Document["_id"]}
         const data = await ResourceCategory.findById(id,{name:`$name_${lang}`})

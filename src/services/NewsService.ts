@@ -16,10 +16,16 @@ class NewsService extends BaseService{
         try{
             const page = req.query.page as unknown as number || 1
             const {lang} = req.params as {lang:Lang["types"]}
-            const data = await News.find(
-                {},
-                {title:`$title_${lang}`,short_desc:`$short_desc_${lang}`,desc:`$desc_${lang}`,date:"$date"}
-            ).skip((page-1)*newsPaginationLimit).limit(newsPaginationLimit)
+            const data = await News.aggregate([
+                { '$facet': {
+                        metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:newsPaginationLimit}} ],
+                        data: [
+                            { $skip: (page-1)*newsPaginationLimit }, 
+                            { $limit: newsPaginationLimit },
+                            { $project:{title:`$title_${lang}`,short_desc:`$short_desc_${lang}`,desc:`$desc_${lang}`,date:`$date`}}   
+                        ]
+                    } }
+            ])
             return ResponseService.responseWithData(data)
         } catch(e){
             return ResponseService.internalServerError(e)

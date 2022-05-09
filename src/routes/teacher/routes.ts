@@ -1,23 +1,37 @@
-import {Router} from "express";
+import {Request, Response, Router} from "express";
 import PhotoCheck from "../../middlewares/fileUpload/photoCheck";
 import teacherCreateValidation from "../../middlewares/joi/teachers/create";
-import teacherCreate from "../../controllers/teachers/create";
-import teachersList from "../../controllers/teachers/list";
 import {teacherUpdateValidation} from "../../middlewares/joi/teachers/update";
-import teacherUpdateById from "../../controllers/teachers/update";
-import teacherGetById from "../../controllers/teachers/get";
-import teacherDeleteById from "../../controllers/teachers/delete";
 import verifyToken from "../../middlewares/verifyToken";
+import TeachersController from "../../controllers/teachers";
 
 const teacherRoutes = Router()
+const controller = new TeachersController()
 
 teacherRoutes.route("/")
-    .post(verifyToken,PhotoCheck,teacherCreateValidation,teacherCreate)
-    .get(teachersList)
+    .post(
+        verifyToken,
+        PhotoCheck,
+        teacherCreateValidation,
+        (req:Request,res:Response) => controller.create(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.list(req,res)
+    )
 
 teacherRoutes.route("/:id")
-    .patch(verifyToken,PhotoCheck,teacherUpdateValidation,teacherUpdateById)
-    .get(teacherGetById)
-    .delete(verifyToken,teacherDeleteById)
+    .patch(
+        verifyToken,
+        PhotoCheck,
+        teacherUpdateValidation,
+        (req:Request,res:Response) => controller.update(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.get(req,res)
+    )
+    .delete(
+        verifyToken,
+        (req:Request,res:Response) => controller.delete(req,res)
+    )
 
 export default teacherRoutes;

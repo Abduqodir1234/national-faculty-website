@@ -1,22 +1,34 @@
-import { Router } from "express";
-import adminstrationCreate from "../../controllers/adminstration/create";
-import adminstrationDelete from "../../controllers/adminstration/delete";
-import adminstrationGetByid from "../../controllers/adminstration/get";
-import adminstrationList from "../../controllers/adminstration/list";
-import adminstrationUpdate from "../../controllers/adminstration/update";
+import { Response, Router,Request } from "express";
+import AdminstrationController from "../../controllers/adminstration";
 import adminstrationsValidation from "../../middlewares/joi/adminstration/schema";
 import verifyToken from "../../middlewares/verifyToken";
 
 const adminstrationRoutes = Router()
+const controller = new AdminstrationController()
 
 adminstrationRoutes.route('/:lang')
-    .post(verifyToken,adminstrationsValidation,adminstrationCreate)
-    .get(adminstrationList)
+    .post(
+        verifyToken,
+        adminstrationsValidation,
+        (req:Request,res:Response)=>controller.create(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.list(req,res)
+    )
 
 
 adminstrationRoutes.route('/:id/:lang')
-    .patch(verifyToken,adminstrationsValidation,adminstrationUpdate)
-    .delete(verifyToken,adminstrationDelete)
-    .get(adminstrationGetByid)
+    .patch(
+        verifyToken,
+        adminstrationsValidation,
+        (req:Request,res:Response) => controller.update(req,res)
+    )
+    .delete(
+        verifyToken,
+        (req:Request,res:Response) => controller.delete(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.get(req,res)
+    )
 
 export default adminstrationRoutes;

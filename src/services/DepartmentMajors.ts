@@ -51,7 +51,7 @@ class DepartmentMajorsService extends BaseService{
     }
 
 
-    async getByid(req:Request){
+    async getById(req:Request){
         try{
             const {id,lang} = req.params as unknown as {id:Document["_id"],lang:Lang["types"]}
             const data = await DepartmentMajors.findById(id)

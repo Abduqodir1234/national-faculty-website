@@ -23,10 +23,6 @@ const NewsSchema = new Schema({
         type:String,
         default:null
     },
-    short_desc:{
-        type:String,
-        default:null
-    },
     short_desc_uz:{
         type:String,
         default:null

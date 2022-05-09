@@ -27,7 +27,7 @@ class DepartmentSubjectService extends BaseService{
         }
     }
 
-    async getByid(req:Request){
+    async getById(req:Request){
         try{
             const id = req.params.id
             const lang = req.params.lang as Lang["types"]

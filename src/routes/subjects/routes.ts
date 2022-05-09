@@ -1,22 +1,34 @@
-import { Router } from "express";
-import subjectCreate from "../../controllers/subjects/create";
-import subjectDelete from "../../controllers/subjects/delete";
-import subjectGetByid from "../../controllers/subjects/get";
-import subjectList from "../../controllers/subjects/list";
-import subjectUpdate from "../../controllers/subjects/update";
+import { Request, Response, Router } from "express";
+import SubjectController from "../../controllers/subjects";
 import subjectSchema from "../../middlewares/joi/subjects/validator";
+import { RequestWithUser } from "../../middlewares/types/RequestWithUser";
 import verifyToken from "../../middlewares/verifyToken";
 
 const subjectRoutes = Router()
-
+const controller = new SubjectController()
 
 subjectRoutes.route("/:lang")
-    .post(verifyToken,subjectSchema,subjectCreate)
-    .get(subjectList)
+    .post(
+        verifyToken,
+        subjectSchema,
+        (req:RequestWithUser,res:Response) => controller.create(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.list(req,res) 
+    )
 
 subjectRoutes.route("/:id/:lang")
-    .patch(verifyToken,subjectSchema,subjectUpdate)
-    .delete(verifyToken,subjectDelete)
-    .get(subjectGetByid)
+    .patch(
+        verifyToken,
+        subjectSchema,
+        (req:RequestWithUser,res:Response) => controller.update(req,res)
+    )
+    .delete(
+        verifyToken,
+        (req:RequestWithUser,res:Response) => controller.delete(req,res)
+    )
+    .get(
+        (req:Request,res:Response) => controller.get(req,res)
+    )
  
 export default subjectRoutes;

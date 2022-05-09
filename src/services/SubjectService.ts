@@ -3,13 +3,12 @@ import { Lang } from "../middlewares/types/LangTypes";
 import Subjects from "../models/subject";
 import BaseService from "./BaseService";
 import ResponseService from "./response";
-import {Document} from "mongoose"
 class SubjectService extends BaseService{
     constructor(){
         super(Subjects)
     }
 
-    async getAll(req:Request){
+    async list(req:Request){
         try{
             const lang = req.params.lang as Lang["types"]
             const data = await Subjects.find({},{"name":`$name_${lang}`})
@@ -19,7 +18,7 @@ class SubjectService extends BaseService{
         }
     }
 
-    async getByid(req:Request){
+    async getById(req:Request){
         try{
             const id = req.params.id
             const lang = req.params.lang as Lang["types"]
