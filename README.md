@@ -5,12 +5,13 @@
 <br>
 <h1>To run project</h1>
 <ol>
-    <li>Run redis and mongodb using docker.yml in root project
-    <br><br>
+    <li><b>Configure envs</b></li>
+    <li><b>Run redis and mongodb using docker.yml in root project</b>
+    <br>
     <b>1.Run in root directory</b>
     <br>
     <code>docker-compose -f docker.yml up</code><br> <br>
-    <b>2.Disable redis and mongodb in root directory in the end</b>
+    <b>2.Disable redis and mongodb in root directory when you quit .</b>
     <br>
     <code>docker-compose -f docker.yml down</code><br> <br>
     </li>
@@ -18,6 +19,10 @@
          <b>Install dependencies</b>
           <br>
           <code>npm i</code>
+    </li>
+    <li>
+        <b>Run seeders</b><br>
+        <code>npm run seeders</code>
     </li>
     <li>
         <b>Run project</b>
