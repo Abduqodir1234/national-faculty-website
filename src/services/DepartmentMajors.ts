@@ -20,9 +20,11 @@ class DepartmentMajorsService extends BaseService{
             if(departmentId) query={departmentId:new ObjectId(departmentId)}
             const data = await DepartmentMajors.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page||1 }},{$addFields: {limit:departmentMajorsLimit}} ],
+                        metadata: [ { $count: "total" }, { $addFields: { page: page||1 }},{$addFields: {limit:departmentMajorsLimit}}],
                         data: [
                             {$match:{...query}},
+                            { $skip: (page||1-1)*departmentMajorsLimit }, 
+                            { $limit: departmentMajorsLimit },
                             { $lookup:{
                                 from:"majors",
                                 localField:"majorId",
@@ -35,14 +37,15 @@ class DepartmentMajorsService extends BaseService{
                                 localField:"departmentId",
                                 pipeline:[{$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}}],
                                 foreignField:"_id",
-                                as:"department "
+                                as:"department"
                             }},
-                            { $skip: (page||1-1)*departmentMajorsLimit }, 
-                            { $limit: departmentMajorsLimit },
+                            {$unwind:{path:"$major",preserveNullAndEmptyArrays:true}},
+                            {$unwind:{path:"$department",preserveNullAndEmptyArrays:true}},
                             { $unset:["__v","majorId","departmentId"]},
-                            
-                        ]
-                    } }
+                        ],
+                    }
+                },
+                {$unwind:"$metadata"},
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

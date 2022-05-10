@@ -24,7 +24,9 @@ class NewsService extends BaseService{
                             { $limit: newsPaginationLimit },
                             { $project:{title:`$title_${lang}`,short_desc:`$short_desc_${lang}`,desc:`$desc_${lang}`,date:`$date`}}   
                         ]
-                    } }
+                    } 
+                },
+                {$unwind:"$metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

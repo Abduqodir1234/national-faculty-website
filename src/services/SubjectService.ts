@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { subjectListLimit } from "../config";
 import { Lang } from "../middlewares/types/LangTypes";
 import Subjects from "../models/subject";
 import BaseService from "./BaseService";
@@ -11,7 +12,20 @@ class SubjectService extends BaseService{
     async list(req:Request){
         try{
             const lang = req.params.lang as Lang["types"]
-            const data = await Subjects.find({},{"name":`$name_${lang}`})
+            const page = req.query.page as unknown as number || 1;
+            const data = await Subjects.aggregate([
+                { '$facet': {
+                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:subjectListLimit}} ],
+                    data: [ 
+                        { $skip: (page-1)*subjectListLimit },
+                        { $limit: subjectListLimit },
+                        { $project:{"name":`$name_${lang}`}},
+                        { $unset:["__v","majorId"]},
+                    ]
+                } },
+                {$unwind:"$metadata"}
+            ])
+            // const data = await Subjects.find({},{"name":`$name_${lang}`})
             return ResponseService.responseWithData(data)
         } catch(e){
             return ResponseService.internalServerError(e)

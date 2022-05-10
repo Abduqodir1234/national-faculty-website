@@ -1,3 +1,4 @@
+import { string } from "joi";
 import {Schema,model,Document} from "mongoose"
 
 export interface NewsDocument extends Document{
@@ -48,7 +49,7 @@ const NewsSchema = new Schema({
         default:null
     },
     img:String,
-    date:Date,
+    date:String,
 },{timestamps:true})
 
 const News = model("news",NewsSchema)

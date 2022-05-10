@@ -20,14 +20,15 @@ class MajorsService extends BaseService{
                 { '$facet': {
                     metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:majorsListLimit}} ],
                     teachers:[
+                        { $skip: (page-1)*majorsListLimit }, 
+                        { $limit: majorsListLimit },
                         {$project:{
                             "name":`$name_${lang}`
                         }},
-                        { $skip: (page-1)*majorsListLimit }, 
-                        { $limit: majorsListLimit },
                         { $unset:["__v"]},
                     ]
-                }}
+                }},
+                {$unwind:"$metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

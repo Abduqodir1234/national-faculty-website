@@ -25,7 +25,8 @@ class ContestService extends BaseService{
                         { $unset:["__v"]},
                         {$project:{title:`$title_${lang}`,desc:`$desc_${lang}`,img:"$img",date:"$date"}}
                     ]
-                } }
+                } },
+                {$unwind:"$metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

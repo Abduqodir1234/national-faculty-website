@@ -24,7 +24,8 @@ class ResourceCategoryService extends BaseService{
                         { $project:{name:`$name_${lang}`}},
                         { $unset:["__v",]},   
                     ]
-                } }
+                }},
+                {$unwind:"metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

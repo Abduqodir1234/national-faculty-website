@@ -33,9 +33,11 @@ class ResourcesService extends BaseService{
                             foreignField:"_id",
                             as:"category"
                         }},
+                        {$unwind:{path:"$category",preserveNullAndEmptyArrays:true}},
                         {$project:{title:`$title_${lang}`,desc:`$desc_${lang}`,category:"$category"}},
                     ]
-                } }
+                } },
+                {$unwind:"$metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

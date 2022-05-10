@@ -21,6 +21,8 @@ class AdminstrationService extends BaseService{
                 { '$facet': {
                         metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:adminstrationListLimit}} ],
                         data: [ 
+                            { $skip: (page-1)*adminstrationListLimit }, 
+                            { $limit: adminstrationListLimit },
                             { $lookup:{
                                 from:"teachers",
                                 localField:"teacherId",
@@ -33,13 +35,13 @@ class AdminstrationService extends BaseService{
                                 pipeline:[{$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}}],
                                 foreignField:"_id",
                                 as:"department"
-                            }},
-                            { $skip: (page-1)*adminstrationListLimit }, 
-                            { $limit: adminstrationListLimit },
+                            }},    
+                            {$unwind:{path:"$teacher",preserveNullAndEmptyArrays:true}},
+                            {$unwind:{path:"$department",preserveNullAndEmptyArrays:true}},
                             { $unset:["__v","teacherId","departmentId"]},
-                            
                         ]
-                    } }
+                    } },
+                    {$unwind:"$metadata"}
             ])
             return ResponseService.responseWithData(data)
         } catch(e){

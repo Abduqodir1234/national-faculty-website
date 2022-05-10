@@ -12,7 +12,7 @@ class UserController extends BaseController{
     }
 
     async getUser(req:RequestWithUser,res:Response){
-        delete req.user?.__v
+        delete req.user?.__v;
         delete req.user?.role
         return res.status(200).json({error:false,data:req.user})
     }
