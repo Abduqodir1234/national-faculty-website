@@ -29,8 +29,8 @@ class UserService extends BaseService {
            const data = req.body
            let user = await Users.findOne<UserDocument>({email:data.email})
            if(!user) return ResponseService.notFound()
-           const hash = await bcrypt.compare(data.password,user.password)
-           if(hash){
+           const IsTheSame = await bcrypt.compare(data.password,user.password)
+           if(IsTheSame){
                const token2 = await redis_client.get(user._id)
                if(token2) return ResponseService.responseWithData({token:token2})
                const {error,data,message} = await createToken(user)

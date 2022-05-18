@@ -221,19 +221,18 @@ export const adminstrationDatas = (teacherId:Document["_id"],departmentId:Docume
     ]
 }
 
-// export const talentedStudentsData = [
-//     {
-//         fullname:"Sapayev Shoxnazar",
-//         title:"Magistr",
-//         educationTitle:"oqituvchi",
-//         birthdate:"08-18-2002",
-//         passportSeries:"AA",
-//         passportNumber:"1234567",
-//         email:"sapayev.nazaber@gmail.com",
-//         image:null,
-//         is_MA:false,
-//         study_foreign:false,
-//         departmentId:null,
-//         dateOfEntry:"01-01-2021"
-//     }
-// ]
+export const talentedStudentsData = (id:Document["_id"]) => {
+    return [
+        {
+            fullname:"Sapayev Shoxnazar",
+            birthdate:"08-18-2002",
+            address:"Toshkent parkent",
+            title:"O'quvchi",
+            image:null,
+            majorId:id,
+            specialization:"Software engineer",
+            departmentId:null,
+            desc:"Yaxshi talaba"
+        }
+    ]
+}

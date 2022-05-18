@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Users from "../models/user";
-import { aboutData, adminstrationDatas, contestDatas, departmentDatas, departmentMajorsData, departmentSubjectData, mainInfosData, majorDatas, newsData, resourceCategoryDatas, resourceData, subjectsData, teacherData, userData } from "./data";
+import { aboutData, adminstrationDatas, contestDatas, departmentDatas, departmentMajorsData, departmentSubjectData, mainInfosData, majorDatas, newsData, resourceCategoryDatas, resourceData, subjectsData, talentedStudentsData, teacherData, userData } from "./data";
 import * as dotenv from "dotenv"
 import hash from "../middlewares/hash";
 import News from "../models/news";
@@ -16,6 +16,7 @@ import DepartmentSubject from "../models/departmentSubject";
 import Majors from "../models/majors";
 import DepartmentMajors from "../models/departmentMajors";
 import Adminstrations from "../models/adminstration";
+import Talenteds from "../models/talented";
 
 const runSeeders = async () => {
     try{
@@ -42,6 +43,7 @@ const runSeeders = async () => {
         const major = await Majors.findOne({name_uz:"Axborot texnologiyalari"})
         await DepartmentMajors.insertMany(departmentMajorsData(major._id,department._id))
         await Adminstrations.insertMany(adminstrationDatas(teacher._id,department._id))
+        await Talenteds.insertMany(talentedStudentsData(major._id))
         console.log("Admin user created.\nemail:a@gmail.com\npassword:123456789\nKeep on!!!!!");
         process.exit(1)
     }

@@ -16,7 +16,11 @@ class DepartmentSubjectService extends BaseService{
             const page = req.query.page as unknown as number || 1
             const data = await DepartmentSubject.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:departmentSubjectListLimit}} ],
+                        metadata: [ 
+                            { $count: "total" }, 
+                            { $addFields: { page: page }},
+                            {$addFields: {limit:departmentSubjectListLimit}} 
+                        ],
                         data: [ 
                             { $skip: (page-1)*departmentSubjectListLimit }, 
                             { $limit: departmentSubjectListLimit },
@@ -30,7 +34,14 @@ class DepartmentSubjectService extends BaseService{
                             { $lookup:{
                                 from:"departments",
                                 localField:"departmentId",
-                                pipeline:[{$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}}],
+                                pipeline:[
+                                    {$project:{
+                                        name:`$name_${lang}`,
+                                        desc:`$desc_${lang}`,
+                                        address:`$address_${lang}`,
+                                        dean:"$dean"
+                                    }}
+                                ],
                                 foreignField:"_id",
                                 as:"department"
                             }},    
@@ -41,15 +52,6 @@ class DepartmentSubjectService extends BaseService{
                     } },
                     {$unwind:"$metadata"}
             ])
-            // const data = await DepartmentSubject.find({})
-            //     .populate({
-            //         path:"subjectId",
-            //         select:{name:`$name_${lang}`}
-            //     })
-            //     .populate({
-            //         path:"departmentId",
-            //         select:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}
-            //     })
             return ResponseService.responseWithData(data)
         } catch(e){
             return ResponseService.internalServerError(e)
@@ -67,7 +69,12 @@ class DepartmentSubjectService extends BaseService{
             })
             .populate({
                 path:"departmentId",
-                select:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}
+                select:{
+                    name:`$name_${lang}`,
+                    desc:`$desc_${lang}`,
+                    address:`$address_${lang}`,
+                    dean:"$dean"
+                }
             })
             if(!data)
                 return ResponseService.notFound()

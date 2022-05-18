@@ -17,7 +17,11 @@ class TalentedStudentsService extends BaseService{
             const lang = req.params.lang as Lang["types"]
             const data = await Talenteds.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:talentedStudentListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page }},
+                        {$addFields: {limit:talentedStudentListLimit}} 
+                    ],
                     data: [ 
                         { $skip: (page-1)*talentedStudentListLimit },
                         { $limit: talentedStudentListLimit },
@@ -44,7 +48,12 @@ class TalentedStudentsService extends BaseService{
     async getById(req:Request){
         try{
             const {lang,id} = req.params as {lang:Lang["types"],id:Document["_id"]}
-            const data = await Talenteds.findById(id).populate({path:"majorId",select:{name:`$name_${lang}`}})
+            const data = await Talenteds.findById(id).populate(
+                {
+                    path:"majorId",
+                    select:{name:`$name_${lang}`}
+                }
+            )
             if(!data)
                 return ResponseService.notFound()
             return ResponseService.responseWithData(data)

@@ -21,7 +21,11 @@ class ResourcesService extends BaseService{
                 query={categoryId:new ObjectId(categoryId)}
             const data = await Resources.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page||1 }},{$addFields: {limit:resourceCategoryListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page||1 }},
+                        {$addFields: {limit:resourceCategoryListLimit}} 
+                    ],
                     data: [
                         {$match:query},
                         { $skip: (page||1-1)*resourceCategoryListLimit }, 
@@ -34,7 +38,11 @@ class ResourcesService extends BaseService{
                             as:"category"
                         }},
                         {$unwind:{path:"$category",preserveNullAndEmptyArrays:true}},
-                        {$project:{title:`$title_${lang}`,desc:`$desc_${lang}`,category:"$category"}},
+                        {$project:{
+                            title:`$title_${lang}`,
+                            desc:`$desc_${lang}`,
+                            category:"$category"
+                        }},
                     ]
                 } },
                 {$unwind:"$metadata"}
@@ -48,7 +56,11 @@ class ResourcesService extends BaseService{
     async getById(req:Request){
         try{
             const {lang,id} = req.params as {lang:Lang["types"],id:Document["_id"]}
-            const data = await Resources.findById(new ObjectId(id),{title:`$title_${lang}`,desc:`$desc_${lang}`,categoryId:"$categoryId"})
+            const data = await Resources.findById(new ObjectId(id),{
+                title:`$title_${lang}`,
+                desc:`$desc_${lang}`,
+                categoryId:"$categoryId"
+            })
                 .populate({path:"categoryId",select:{name:`$name_${lang}`}})
             if(!data)
                 return ResponseService.notFound()

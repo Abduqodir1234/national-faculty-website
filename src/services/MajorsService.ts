@@ -18,7 +18,11 @@ class MajorsService extends BaseService{
             const page = req.query.page as unknown as number || 1
             const data = await Majors.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:majorsListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page }},
+                        {$addFields: {limit:majorsListLimit}} 
+                    ],
                     teachers:[
                         { $skip: (page-1)*majorsListLimit }, 
                         { $limit: majorsListLimit },

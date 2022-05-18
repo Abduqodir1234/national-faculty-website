@@ -15,7 +15,11 @@ class SubjectService extends BaseService{
             const page = req.query.page as unknown as number || 1;
             const data = await Subjects.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:subjectListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page }},
+                        {$addFields: {limit:subjectListLimit}} 
+                    ],
                     data: [ 
                         { $skip: (page-1)*subjectListLimit },
                         { $limit: subjectListLimit },
@@ -25,7 +29,6 @@ class SubjectService extends BaseService{
                 } },
                 {$unwind:"$metadata"}
             ])
-            // const data = await Subjects.find({},{"name":`$name_${lang}`})
             return ResponseService.responseWithData(data)
         } catch(e){
             return ResponseService.internalServerError(e)

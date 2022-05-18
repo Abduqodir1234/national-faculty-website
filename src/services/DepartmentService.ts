@@ -17,7 +17,12 @@ class DepartmentService extends BaseService{
         try{
             const {lang,id} = req.params as {lang:Lang["types"],id:Document["_id"]}
             const data = await Department
-                .findById(id,{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,  dean:1})
+                .findById(id,{
+                    name:`$name_${lang}`,
+                    desc:`$desc_${lang}`,
+                    address:`$address_${lang}`,  
+                    dean:1
+                })
                 .populate("dean",["-__v","-departmentId"])
             if(!data)
                 return ResponseService.notFound()
@@ -33,7 +38,11 @@ class DepartmentService extends BaseService{
             const page = req.query.page as unknown as number || 1
             const data = await Department.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page}},{$addFields: {limit:departmentListLimit}}],
+                        metadata: [ 
+                            { $count: "total" }, 
+                            { $addFields: { page: page}},
+                            {$addFields: {limit:departmentListLimit}}
+                        ],
                         data: [
                             { $skip: (page-1)*departmentListLimit }, 
                             { $limit: departmentListLimit },
@@ -44,7 +53,12 @@ class DepartmentService extends BaseService{
                                 as:"dean"
                             }},
                             {$unwind:{path:"$dean",preserveNullAndEmptyArrays:true}},
-                            {$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}},
+                            {$project:{
+                                name:`$name_${lang}`,
+                                desc:`$desc_${lang}`,
+                                address:`$address_${lang}`,
+                                dean:"$dean"
+                            }},
                             { $unset:["__v"]},
                         ],
                     }

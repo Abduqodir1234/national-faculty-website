@@ -19,7 +19,11 @@ class AdminstrationService extends BaseService{
             const lang = req.params.lang as Lang["types"]
             const data = await Adminstrations.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:adminstrationListLimit}} ],
+                        metadata: [ 
+                            { $count: "total" }, 
+                            { $addFields: { page: page }},
+                            {$addFields: {limit:adminstrationListLimit}} 
+                        ],
                         data: [ 
                             { $skip: (page-1)*adminstrationListLimit }, 
                             { $limit: adminstrationListLimit },
@@ -32,7 +36,16 @@ class AdminstrationService extends BaseService{
                             { $lookup:{
                                 from:"departments",
                                 localField:"departmentId",
-                                pipeline:[{$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}}],
+                                pipeline:[
+                                    {
+                                        $project:{
+                                            name:`$name_${lang}`,
+                                            desc:`$desc_${lang}`,
+                                            address:`$address_${lang}`,
+                                            dean:"$dean"
+                                        }
+                                    }
+                                ],
                                 foreignField:"_id",
                                 as:"department"
                             }},    

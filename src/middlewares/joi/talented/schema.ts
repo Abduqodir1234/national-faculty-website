@@ -8,7 +8,6 @@ const schema = Joi.object({
     birthdate:Joi.date().max("now"),
     address:Joi.string().required(),
     title:Joi.string().required(),
-    university:Joi.string().required(),
     majorId:Joi.string().hex().length(24).required(),
     specialization:Joi.string().required(),
     desc:Joi.string().required()

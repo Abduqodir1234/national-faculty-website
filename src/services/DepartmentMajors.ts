@@ -20,7 +20,11 @@ class DepartmentMajorsService extends BaseService{
             if(departmentId) query={departmentId:new ObjectId(departmentId)}
             const data = await DepartmentMajors.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page||1 }},{$addFields: {limit:departmentMajorsLimit}}],
+                        metadata: [ 
+                            { $count: "total" }, 
+                            { $addFields: { page: page||1 }},
+                            {$addFields: {limit:departmentMajorsLimit}}
+                        ],
                         data: [
                             {$match:{...query}},
                             { $skip: (page||1-1)*departmentMajorsLimit }, 
@@ -35,7 +39,14 @@ class DepartmentMajorsService extends BaseService{
                             { $lookup:{
                                 from:"departments",
                                 localField:"departmentId",
-                                pipeline:[{$project:{name:`$name_${lang}`,desc:`$desc_${lang}`,address:`$address_${lang}`,dean:"$dean"}}],
+                                pipeline:[
+                                    {$project:{
+                                        name:`$name_${lang}`,
+                                        desc:`$desc_${lang}`,
+                                        address:`$address_${lang}`,
+                                        dean:"$dean"
+                                    }
+                                }],
                                 foreignField:"_id",
                                 as:"department"
                             }},

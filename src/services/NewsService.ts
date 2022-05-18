@@ -18,11 +18,20 @@ class NewsService extends BaseService{
             const {lang} = req.params as {lang:Lang["types"]}
             const data = await News.aggregate([
                 { '$facet': {
-                        metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:newsPaginationLimit}} ],
+                        metadata: [ 
+                            { $count: "total" }, 
+                            { $addFields: { page: page }},
+                            {$addFields: {limit:newsPaginationLimit}} 
+                        ],
                         data: [
                             { $skip: (page-1)*newsPaginationLimit }, 
                             { $limit: newsPaginationLimit },
-                            { $project:{title:`$title_${lang}`,short_desc:`$short_desc_${lang}`,desc:`$desc_${lang}`,date:`$date`}}   
+                            { $project:{
+                                title:`$title_${lang}`,
+                                short_desc:`$short_desc_${lang}`,
+                                desc:`$desc_${lang}`,
+                                date:`$date`
+                            }}   
                         ]
                     } 
                 },
@@ -39,7 +48,12 @@ class NewsService extends BaseService{
             const {id,lang} = req.params as {id:Document["_id"],lang:Lang["types"]}
             const data = await News.findById(
                 new ObjectId(id),
-                {title:`$title_${lang}`,short_desc:`$short_desc_${lang}`,desc:`$desc_${lang}`,date:"$date"}
+                {
+                    title:`$title_${lang}`,
+                    short_desc:`$short_desc_${lang}`,
+                    desc:`$desc_${lang}`,
+                    date:"$date"
+                }
             )
             if(!data)
                 return ResponseService.notFound()

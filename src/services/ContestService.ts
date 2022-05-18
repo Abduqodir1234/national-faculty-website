@@ -18,12 +18,20 @@ class ContestService extends BaseService{
             const page = req.query.page as unknown as number || 1
             const data = await Contests.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:contestListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page }},
+                        {$addFields: {limit:contestListLimit}} 
+                    ],
                     data: [ 
                         { $skip: (page-1)*contestListLimit }, 
                         { $limit: contestListLimit },
                         { $unset:["__v"]},
-                        {$project:{title:`$title_${lang}`,desc:`$desc_${lang}`,img:"$img",date:"$date"}}
+                        {$project:{
+                            title:`$title_${lang}`,
+                            desc:`$desc_${lang}`,
+                            img:"$img",date:"$date"
+                        }}
                     ]
                 } },
                 {$unwind:"$metadata"}

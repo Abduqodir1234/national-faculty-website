@@ -17,7 +17,11 @@ class ResourceCategoryService extends BaseService{
             const lang = req.params.lang as Lang["types"]
             const data = await ResourceCategory.aggregate([
                 { '$facet': {
-                    metadata: [ { $count: "total" }, { $addFields: { page: page }},{$addFields: {limit:resourceCategoryListLimit}} ],
+                    metadata: [ 
+                        { $count: "total" }, 
+                        { $addFields: { page: page }},
+                        {$addFields: {limit:resourceCategoryListLimit}} 
+                    ],
                     data: [
                         { $skip: (page-1)*resourceCategoryListLimit }, 
                         { $limit: resourceCategoryListLimit },

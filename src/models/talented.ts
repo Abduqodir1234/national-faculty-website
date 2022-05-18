@@ -5,7 +5,6 @@ const talentedSchema = new Schema({
     birthdate:Schema.Types.Date,
     address:String,
     title:String,
-    university:String,
     majorId:{
         type:Schema.Types.ObjectId,
         ref:"majors"

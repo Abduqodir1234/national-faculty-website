@@ -18,7 +18,7 @@ class BaseController{
 
     async get(req:Request,res:Response){
         const {error,status,data,message} = await this.baseService.getById(req)
-        return res.status(status).json({error,data,message})
+        return res.status(status).json({error,message,data})
     }
 }
 export default BaseController;

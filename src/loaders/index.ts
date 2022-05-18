@@ -34,7 +34,7 @@ export default async(app:Application) => {
     app.use(helmet())
     
     //Use to limit repeated requests to public APIs
-    app.use(rateLimiter({windowMs:30*1000,max:200}))
+    app.use(rateLimiter({windowMs:1*1000,max:10000}))
 
 
 
