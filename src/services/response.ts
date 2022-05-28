@@ -80,7 +80,7 @@ class ResponseService{
         }
     }
 
-    static responseWithData(data:any,msg:string=""){
+    static responseWithData(data:any=[],msg:string=""){
         return{
             status:200,
             error:false,

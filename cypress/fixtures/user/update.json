@@ -1,0 +1,20 @@
+{
+    "body":{
+        "fullname":"Sapayev Alijon",
+        "email":"a2@gmail.com"
+    },
+    "withSameEmail":{
+        "fullname":"Sapayev Alijon",
+        "email":"a@gmail.com"
+    },
+    "withoutFullname":{
+        "email":"a8@gmail.com"
+    },
+    "withoutEmail":{
+        "fullname":"Sapayev Alibek"
+    },
+    "withtWrongEmail":{
+        "fullname":"Sapayev Alibek",
+        "email":"a15@gmail"
+    }
+}

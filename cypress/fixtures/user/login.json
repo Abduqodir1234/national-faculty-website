@@ -1,0 +1,23 @@
+{
+   "body":{
+        "email":"a@gmail.com",
+        "password":"123456789"
+    },
+    "body2":{
+        "email":"a2@gmail.com",
+        "password":"Ab+123456789"
+    },
+    "withoutEmail":{
+        "password":"123456789"
+    },
+    "withoutPassword":{
+        "email":"asdasda@gmail.com"
+    },
+    "wrongEmail":{
+        "email":"asdasda"
+    },
+    "wrongPassword":{
+        "email":"asdasda@gmail.com",
+        "password":1234
+    }
+}

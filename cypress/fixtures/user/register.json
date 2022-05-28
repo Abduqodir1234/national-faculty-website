@@ -1,0 +1,35 @@
+{
+    "body":{
+        "fullname":"Sapayev Alibek",
+        "email":"a9@gmail.com",
+        "password":"Ab+123456789",
+        "confirm_password":"Ab+123456789"
+    },
+    "body2":{
+        "fullname":"Sapayev Alibek2",
+        "email":"a2@gmail.com",
+        "password":"Ab+123456789",
+        "confirm_password":"Ab+123456789"
+    },
+    "withoutFullname":{
+        "email":"a8@gmail.com",
+        "password":"Ab+123456789",
+        "confirm_password":"Ab+123456789"
+    },
+    "withoutPassword":{
+        "fullname":"Sapayev Alibek",
+        "email":"a8@gmail.com",
+        "confirm_password":"Ab+123456789"
+    },
+    "withoutConfirmPassword":{
+        "fullname":"Sapayev Alibek",
+        "email":"a8@gmail.com",
+        "password":"Ab+123456789"
+    },
+    "passwordAndConfirmPasswordDifferent":{
+        "fullname":"Sapayev Alibek",
+        "email":"a8@gmail.com",
+        "password":"Ab+123456789",
+        "confirm_password":"Aasdfb+12sadffd3456789asdf"
+    }
+}

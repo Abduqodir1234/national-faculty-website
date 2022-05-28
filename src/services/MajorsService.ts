@@ -6,6 +6,7 @@ import BaseService from "./BaseService";
 import ResponseService from "./response";
 import {Document} from "mongoose"
 import {ObjectId} from "mongodb"
+import { NumberMatcher } from "cypress/types/net-stubbing";
 
 class MajorsService extends BaseService{
     constructor(){
@@ -14,17 +15,21 @@ class MajorsService extends BaseService{
 
     async list(req:Request){
         try{
+            const {page,name} = req.query as unknown as {page?:number,name?:string}
             const lang = req.params.lang as Lang["types"]
-            const page = req.query.page as unknown as number || 1
+            let query = {}
+            if(name)
+                query = {[`name_${lang}`]:name}
             const data = await Majors.aggregate([
+                {$match:query},
                 { '$facet': {
                     metadata: [ 
                         { $count: "total" }, 
-                        { $addFields: { page: page }},
+                        { $addFields: { page: page || 1}},
                         {$addFields: {limit:majorsListLimit}} 
                     ],
-                    teachers:[
-                        { $skip: (page-1)*majorsListLimit }, 
+                    data:[
+                        { $skip: (page||1-1)*majorsListLimit }, 
                         { $limit: majorsListLimit },
                         {$project:{
                             "name":`$name_${lang}`
@@ -34,7 +39,7 @@ class MajorsService extends BaseService{
                 }},
                 {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

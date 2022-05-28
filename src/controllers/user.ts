@@ -35,6 +35,8 @@ class UserController extends BaseController{
     }
 
     async update(req:RequestWithUser,res:Response){
+        console.log(req?.user?._id);
+        
         const {error,message,status} = await this.service
             .updatebyId(req?.user?._id,req.body)
         return res.status(status).json({error,message})

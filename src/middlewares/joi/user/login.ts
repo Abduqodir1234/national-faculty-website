@@ -2,7 +2,7 @@ import Joi from "joi";
 import {NextFunction, Request, Response} from "express";
 
 const login = Joi.object({
-    email:Joi.string().required(),
+    email:Joi.string().email().required(),
     password:Joi.string().required()
 })
 

@@ -9,12 +9,12 @@ const mainInfosSchema = Joi.object({
     address:Joi.string().required(),
     coordinate_x:Joi.number(),
     coordinate_y:Joi.number(),
-    facebook:Joi.string().uri({scheme:[/facebook\+https?/]}),
-    instagram:Joi.string().uri({scheme:[/instagram\+https?/]}),
-    telegram:Joi.string().uri({scheme:[/telegram\+https?/]}),
-    youtube:Joi.string().uri({scheme:[/youtube\+https?/]}),
-    startWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/),
-    endWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/)
+    facebook:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/?/),
+    instagram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?instagram.com\/?/),
+    telegram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?telegram.org\/?/),
+    youtube:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?youtube.com\/?/),
+    startWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
+    endWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required() 
 })
 
 const mainInfosSchemaValidator = async (req:RequestWithUser,res:Response,next:NextFunction) => {

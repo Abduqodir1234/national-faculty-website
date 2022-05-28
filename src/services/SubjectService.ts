@@ -11,17 +11,21 @@ class SubjectService extends BaseService{
 
     async list(req:Request){
         try{
+            const {name,page} = req.query as unknown as {page:number,name:string}
             const lang = req.params.lang as Lang["types"]
-            const page = req.query.page as unknown as number || 1;
+            let query={}
+            if(name)
+                query = {[`name_${lang}`]:name}
             const data = await Subjects.aggregate([
+                {$match:query},
                 { '$facet': {
                     metadata: [ 
                         { $count: "total" }, 
-                        { $addFields: { page: page }},
+                        { $addFields: { page: page||1 }},
                         {$addFields: {limit:subjectListLimit}} 
                     ],
                     data: [ 
-                        { $skip: (page-1)*subjectListLimit },
+                        { $skip: (page||1-1)*subjectListLimit },
                         { $limit: subjectListLimit },
                         { $project:{"name":`$name_${lang}`}},
                         { $unset:["__v","majorId"]},
@@ -29,7 +33,9 @@ class SubjectService extends BaseService{
                 } },
                 {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            console.log(data);
+            
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

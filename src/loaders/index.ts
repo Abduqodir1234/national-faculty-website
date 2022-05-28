@@ -1,4 +1,4 @@
-import express, {Application} from 'express'
+import express, {Application, Request, Response} from 'express'
 import * as dotenv from "dotenv"
 import notFound from "../middlewares/notFound";
 import connectDbAndRedis from "../middlewares/connectDbAndRedis";
@@ -35,7 +35,6 @@ export default async(app:Application) => {
     
     //Use to limit repeated requests to public APIs
     app.use(rateLimiter({windowMs:1*1000,max:10000}))
-
 
 
     //Urls

@@ -14,17 +14,24 @@ class NewsService extends BaseService{
 
     async list(req:Request){
         try{
+            let query={}
             const page = req.query.page as unknown as number || 1
             const {lang} = req.params as {lang:Lang["types"]}
+            const {short_desc,title} = req.query as {title?:string;short_desc?:string}
+            if(short_desc)
+                query = {...query,[`short_desc_${lang}`]:short_desc}
+            if(title)
+            query = {...query,[`title_${lang}`]:title}            
             const data = await News.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
                             { $addFields: { page: page }},
-                            {$addFields: {limit:newsPaginationLimit}} 
+                            { $addFields: {limit:newsPaginationLimit}} 
                         ],
-                        data: [
-                            { $skip: (page-1)*newsPaginationLimit }, 
+                        data: [ 
+                            { $skip: -(page-1)*newsPaginationLimit }, 
                             { $limit: newsPaginationLimit },
                             { $project:{
                                 title:`$title_${lang}`,
@@ -33,11 +40,11 @@ class NewsService extends BaseService{
                                 date:`$date`
                             }}   
                         ]
-                    } 
+                    },     
                 },
                 {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

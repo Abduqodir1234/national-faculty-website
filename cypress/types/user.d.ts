@@ -1,0 +1,80 @@
+export interface UpdateDataProps{
+    body:{
+        fullname:string;
+        email:string;
+    },
+    withSameEmail:{
+        fullname:string;
+        email :string
+    },
+    withoutFullname:{
+        email:string
+    },
+    withoutEmail:{
+        fullname:string;
+    },
+    withtWrongEmail:{
+        fullname:string;
+        email:string;
+    }
+}
+
+export interface RegisterDataProps{
+    body:{
+        fullname:string;
+        email:string;
+        password:string;
+        confirm_password:string;
+    },
+    body2:{
+        fullname:string;
+        email:string;
+        password:string;
+        confirm_password:string;
+    },
+    withoutFullname:{
+        email:string;
+        password:string;
+        confirm_password:string;
+    },
+    withoutPassword:{
+        fullname:string;
+        email:string;
+        confirm_password:string;
+    },
+    withoutConfirmPassword:{
+        fullname:string;
+        email:string;
+        password:string;
+    },
+    passwordAndConfirmPasswordDifferent:{
+        fullname:string;
+        email:string;
+        password:string;
+        confirm_password:string;
+    }
+}
+
+export interface LoginDataProps{
+    body:{
+        email:string;
+        password:string;
+    },
+    body2:{
+        email:string;
+        password:string;
+    },
+    withoutEmail:{
+        password:string;
+    },
+    withoutPassword:{
+        email:string;
+    },
+    wrongEmail:{
+        email:string;
+    },
+    wrongPassword:{
+        email:string;
+        password:string;
+    }
+}

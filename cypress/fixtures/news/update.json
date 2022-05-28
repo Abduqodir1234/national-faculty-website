@@ -1,0 +1,28 @@
+{
+    "body":{
+        "title":"News Updated Title",
+        "short_desc":"Some short desc",
+        "date":"08-18-2002",
+        "desc":"Some desc"
+    },
+    "withoutTitle":{
+        "short_desc":"Some short desc",
+        "date":"08-18-2002",
+        "desc":"Some desc"
+    },
+    "withoutShortDesc":{
+        "title":"News Title",
+        "date":"08-18-2002",
+        "desc":"Some desc"
+    },
+    "withoutDesc":{
+        "title":"News Title",
+        "short_desc":"Some short desc",
+        "date":"08-18-2002"
+    },
+    "withoutDate":{
+        "title":"News Title",
+        "short_desc":"Some short desc",
+        "desc":"Some desc"
+    }
+}

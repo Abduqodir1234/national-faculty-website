@@ -21,7 +21,7 @@ const userRegisterValidator = async (req:Request,res:Response,next:NextFunction)
         if(req.file)
             req.body.img = req.file.path
         const hashed= await hash(req.body.password)
-        if(error) return  res.status(hashed.status).json({error:hashed.error,message:hashed.msg})
+        if(hashed.error) return  res.status(hashed.status).json({error:hashed.error,message:hashed.msg})
         req.body.password = hashed.data
         return next()
     } catch (e){

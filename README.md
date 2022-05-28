@@ -1,8 +1,9 @@
 <h1>Database design</h1>
 <a href="https://dbdiagram.io/d/625cb77a2514c9790345e2b7">Link</a>
+<hr/>
 <h1>API documentation using Postman</h1>
 <a href="https://documenter.getpostman.com/view/15677950/UyxdLpaA">Link</a>
-<br>
+<hr/>
 <h1>To run project</h1>
 <ol>
     <li><b>Configure envs</b></li>
@@ -37,6 +38,22 @@
     </li>
     
 </ol>
+
+<hr/>
+
+<h1>To run tests</h1>
+<ol>
+    <li>
+       <b> 
+           Run project in Port=5000. If not, change baseUrl in cypress.json file.
+       </b>
+    </li>
+    <li>
+        <b>Run tests</b><br/>
+        <code>npm test</code>
+    </li>
+</ol>
+<hr/>
 
 <h1>Folder structure inside /src</h1>
 <dl>
