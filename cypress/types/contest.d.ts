@@ -1,0 +1,39 @@
+export interface ContestDataProps{
+    body:{
+        title:string;
+        desc:string;
+        date:string
+    },
+    withoutTitle:{
+        desc:string;
+        date:string
+    },
+    withoutDesc:{
+        title:string;
+        date:string
+    },
+    withoutDate:{
+        title:string;
+        desc:string;
+    },
+    withWrongTitle:{
+        title:number;
+        desc:string;
+        date:string
+    },
+    withWrongDesc:{
+        title:string;
+        desc:number;
+        date:string
+    },
+    withWrongDate:{
+        title:string;
+        desc:string;
+        date:string
+    }
+}
+
+export interface ContestQueryProps{
+    page:number;
+    title:string;
+}

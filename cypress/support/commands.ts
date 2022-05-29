@@ -53,6 +53,8 @@ declare namespace Cypress {
         resourceCategoryCreate(token: string): Cypress.Chainable<string>;
         departmentCreate(token: string): Cypress.Chainable<string>;
         teacherCreate(token: string): Cypress.Chainable<string>;
+        imageReturner():Cypress.Chainable<File>;
+        contestCreate(token: string): Cypress.Chainable<string>;
     }
   }
 
@@ -258,6 +260,15 @@ Cypress.Commands.add('departmentCreate',(token:string)=>{
     })
 })
 
+Cypress.Commands.add("imageReturner",()=>{
+    cy.fixture("images/user.jpeg")
+        .then(imgTxt=>{
+            const blob = Cypress.Blob.base64StringToBlob(imgTxt)
+            const file = new File([blob],"blog.jpeg")
+            return file;
+        })
+})
+
 
 Cypress.Commands.add('teacherCreate',(token:string)=>{
     cy.departmentCreate(token)
@@ -285,6 +296,35 @@ Cypress.Commands.add('teacherCreate',(token:string)=>{
     
 })
 
+Cypress.Commands.add('contestCreate',(token:string)=>{
+           cy.imageReturner()
+            .then(img=>{
+                cy.fixture("contest/create")
+                .then(data=>{
+                    const {title,desc,date} = data.body
+                    const formData = new FormData()
+                    formData.append("title",title)
+                    formData.append("desc",desc)
+                    formData.append("date",date)
+                    formData.append("img",img)
 
+                    cy.request({
+                        method:"POST",
+                        url:"contest/uz",
+                        body:formData,
+                        headers:{
+                            "Authorization": `Bearer ${token}`,
+                        },
+                        failOnStatusCode:false
+                    })
+                        .then(()=>{
+                            cy.getRequest(`/contest/uz?title=${data.body.title}`)
+                            .then(res=>{
+                                return res.body.data.data[0]._id
+                            })
+                        })
+            })
+        })
+    })
 
 
