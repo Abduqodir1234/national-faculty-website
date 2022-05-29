@@ -5,6 +5,7 @@ import ResponseService from "./response";
 import { Request } from "express";
 import { teacherListLimit } from "../config";
 import { Lang } from "../middlewares/types/LangTypes";
+import { TeacherListQueryProps } from "../middlewares/types/teachers";
 
 class TeacherService extends BaseService{
     constructor() {
@@ -14,23 +15,33 @@ class TeacherService extends BaseService{
 
     async list(req:Request) {
         try{
-            const page = req.query.page as unknown as number || 1
+            const {departmentId,educationTitle,email,fullname,page} = req.query as unknown as TeacherListQueryProps
+            let query={}
+            if(departmentId)
+                query = {departmentId}
+            if(educationTitle)
+                query={...query,educationTitle}
+            if(email)
+                query={...query,email}
+            if(fullname)
+                query={...query,fullname}
             const lang = req.params.lang as Lang["types"]
             const data = await Teachers.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
-                            { $addFields: { page: page }},
+                            { $addFields: { page: page||1 }},
                             {$addFields: {limit:teacherListLimit}} 
                         ],
-                        teachers: [ 
-                            { $skip: (page-1)*teacherListLimit }, 
+                        data: [ 
+                            { $skip: (page || 1 -1)*teacherListLimit }, 
                             { $limit: teacherListLimit },{$unset:["__v"]},
                         ]
                     } },
                 {$unwind:{path:"$metadata",preserveNullAndEmptyArrays:true}}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch (e) {
             console.log(e);
             

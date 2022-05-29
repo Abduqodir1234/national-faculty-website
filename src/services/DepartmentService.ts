@@ -34,17 +34,23 @@ class DepartmentService extends BaseService{
 
     async list(req:Request){
         try{
+            const {dean,name,page} = req.query as unknown as {page:number;dean:string;name:string}
             const lang = req.params.lang as Lang["types"]
-            const page = req.query.page as unknown as number || 1
+            let query={}
+            if(dean)
+                query={dean}
+            if(name)
+                query={...query,[`name_${lang}`]:name}
             const data = await Department.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
-                            { $addFields: { page: page}},
-                            {$addFields: {limit:departmentListLimit}}
+                            { $addFields: { page: page||1}},
+                            { $addFields: {limit:departmentListLimit}}
                         ],
                         data: [
-                            { $skip: (page-1)*departmentListLimit }, 
+                            { $skip: (page||1-1)*departmentListLimit }, 
                             { $limit: departmentListLimit },
                             { $lookup:{
                                 from:"teachers",
@@ -63,9 +69,9 @@ class DepartmentService extends BaseService{
                         ],
                     }
                 },
-                {$unwind:"$metadata"},
+                {$unwind:{path:"$metadata",preserveNullAndEmptyArrays:true}},
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

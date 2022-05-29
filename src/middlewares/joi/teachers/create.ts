@@ -55,6 +55,8 @@ const teacherCreateValidation = async (req:Request,res:Response,next:NextFunctio
         return next()
     }
     catch (e){
+        console.log(e);
+        
         res.status(500).json({error:true,message:e})
     }
 }
