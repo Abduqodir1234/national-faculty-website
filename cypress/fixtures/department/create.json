@@ -1,0 +1,19 @@
+{
+    "body":{
+        "name":"DASTURIY INJINIRING",
+        "desc":"Kafedra faoliyatining asosiy maqsadi axborot texnologiyalarining dasturiy ta’minotini ishlab chiqish borasida yetuk bakalavr hamda magistrlar tayyorlash, o‘quv-uslubiy, ilmiy-tadqiqot, ma’naviy-tarbiyaviy ishlarni olib borishdan iborat.",
+        "address":"C bino 110-xona"
+    },
+    "withoutName":{
+        "desc":"Kafedra faoliyatining asosiy maqsadi axborot texnologiyalarining dasturiy ta’minotini ishlab chiqish borasida yetuk bakalavr hamda magistrlar tayyorlash, o‘quv-uslubiy, ilmiy-tadqiqot, ma’naviy-tarbiyaviy ishlarni olib borishdan iborat.",
+        "address":"C bino 110-xona"
+    },
+    "withoutDesc":{
+        "name":"DASTURIY INJINIRING",
+        "address":"C bino 110-xona"
+    },
+    "withoutAddress":{
+        "name":"DASTURIY INJINIRING",
+        "desc":"Kafedra faoliyatining asosiy maqsadi axborot texnologiyalarining dasturiy ta’minotini ishlab chiqish borasida yetuk bakalavr hamda magistrlar tayyorlash, o‘quv-uslubiy, ilmiy-tadqiqot, ma’naviy-tarbiyaviy ishlarni olib borishdan iborat."
+    }
+}

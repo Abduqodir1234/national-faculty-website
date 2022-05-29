@@ -1,6 +1,6 @@
 import "../../support/commands"
 
-describe("Majors Delete API tests",()=>{
+describe("Department Delete API tests",()=>{
 
     let token=""
     let id:string
@@ -12,7 +12,7 @@ describe("Majors Delete API tests",()=>{
             cy.signIn2()
                 .then(res=>{
                     token = res.token
-                    cy.majorCreate(res.token)
+                    cy.departmentCreate(res.token)
                             .then(res=>{
                                 id = res
                             })
@@ -30,7 +30,7 @@ describe("Majors Delete API tests",()=>{
 
 
     it("check delete api working well or not",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`,token)
+        cy.deleteRequest(`/department/${id}/uz`,token)
         .then(res=>{
             expect(res.status).to.eq(200)
             expect(res.body.error).to.eq(false)
@@ -39,7 +39,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request without token",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`)
+        cy.deleteRequest(`/department/${id}/uz`)
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -48,7 +48,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with unexist id",()=>{
-        cy.deleteRequest(`/majors/${123456789123}/uz`,token)
+        cy.deleteRequest(`/department/${123456789123}/uz`,token)
         .then(res=>{
             expect(res.status).to.eq(404)
             expect(res.body.error).to.eq(true)
@@ -57,7 +57,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request without lang",()=>{
-        cy.deleteRequest(`/majors/${id}`)
+        cy.deleteRequest(`/department/${id}`)
         .then(res=>{
             expect(res.status).to.eq(404)
             expect(res.body.error).to.eq(true)
@@ -66,7 +66,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with uz lang",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`)
+        cy.deleteRequest(`/department/${id}/uz`)
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -76,7 +76,7 @@ describe("Majors Delete API tests",()=>{
 
 
     it("send request with ru lang",()=>{
-        cy.deleteRequest(`/majors/${id}/ru`)
+        cy.deleteRequest(`/department/${id}/ru`)
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -85,7 +85,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with en lang",()=>{
-        cy.deleteRequest(`/majors/${id}/en`)
+        cy.deleteRequest(`/department/${id}/en`)
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -94,7 +94,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with unsupported lang",()=>{
-        cy.deleteRequest(`majors/${id}/de`)
+        cy.deleteRequest(`department/${id}/de`)
         .then(res=>{
             expect(res.status).to.eq(400)
             expect(res.body.error).to.eq(true)

@@ -1,9 +1,10 @@
 import "../../support/commands"
+import { ResourceCategoryDataProps } from "../../types/resourceCategory"
 
-describe("Majors Delete API tests",()=>{
+describe("Resource Category Create API tests",()=>{
 
     let token=""
-    let id:string
+    let mainData:ResourceCategoryDataProps
 
     before(()=>{
         cy.signIn()
@@ -12,13 +13,13 @@ describe("Majors Delete API tests",()=>{
             cy.signIn2()
                 .then(res=>{
                     token = res.token
-                    cy.majorCreate(res.token)
-                            .then(res=>{
-                                id = res
-                            })
                 })
         })
 
+        cy.fixture("resourceCategory/create")
+            .then(data=>{
+                mainData = data
+            })
     })
 
     after(()=>{
@@ -26,20 +27,37 @@ describe("Majors Delete API tests",()=>{
             .then((res)=>{
                 console.log(res);
             })
+
+        cy.getRequest(`/resource/category/uz?name=${mainData.body.name}`)
+            .then(res=>{
+                res?.body?.data?.data?.forEach((one:{_id:string})=>{
+                    cy.deleteRequest(`/majors/${one._id}/uz`,token)
+                })
+            })
     })
 
 
-    it("check delete api working well or not",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`,token)
+    it("create api working correctly or not",()=>{
+        cy.post("/resource/category/uz",mainData.body,token)
         .then(res=>{
-            expect(res.status).to.eq(200)
+            expect(res.status).to.eq(201)
             expect(res.body.error).to.eq(false)
-            expect(res.body.message).to.eq("Deleted")
+            expect(res.body.message).to.eq("created")
+        })
+    })
+
+
+    it("send request with empty body",()=>{
+        cy.post("resource/category/uz",{},token)
+        .then(res=>{
+            expect(res.status).to.eq(400)
+            expect(res.body.error).to.eq(true)
+            expect(res.body.message).to.eq("\"name\" is required")
         })
     })
 
     it("send request without token",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`)
+        cy.post("resource/category/uz")
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -47,17 +65,9 @@ describe("Majors Delete API tests",()=>{
         })
     })
 
-    it("send request with unexist id",()=>{
-        cy.deleteRequest(`/majors/${123456789123}/uz`,token)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Not found")
-        })
-    })
 
     it("send request without lang",()=>{
-        cy.deleteRequest(`/majors/${id}`)
+        cy.post("resource/category")
         .then(res=>{
             expect(res.status).to.eq(404)
             expect(res.body.error).to.eq(true)
@@ -66,7 +76,7 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with uz lang",()=>{
-        cy.deleteRequest(`/majors/${id}/uz`)
+        cy.post("resource/category/uz",)
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -76,16 +86,16 @@ describe("Majors Delete API tests",()=>{
 
 
     it("send request with ru lang",()=>{
-        cy.deleteRequest(`/majors/${id}/ru`)
+        cy.post("resource/category/ru")
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq('No token')
+            expect(res.body.message).to.eq("No token")
         })
     })
 
     it("send request with en lang",()=>{
-        cy.deleteRequest(`/majors/${id}/en`)
+        cy.post("resource/category/en")
         .then(res=>{
             expect(res.status).to.eq(403)
             expect(res.body.error).to.eq(true)
@@ -94,12 +104,13 @@ describe("Majors Delete API tests",()=>{
     })
 
     it("send request with unsupported lang",()=>{
-        cy.deleteRequest(`majors/${id}/de`)
+        cy.post("resource/category/de")
         .then(res=>{
             expect(res.status).to.eq(400)
             expect(res.body.error).to.eq(true)
             expect(res.body.message).to.eq("Lang is not supported")
         })
     })
+
 
 })

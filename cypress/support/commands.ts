@@ -50,7 +50,9 @@ declare namespace Cypress {
         newsCreate(token: string): Cypress.Chainable<string>;
         subjectCreate(token: string): Cypress.Chainable<string>;
         majorCreate(token: string): Cypress.Chainable<string>;
-
+        resourceCategoryCreate(token: string): Cypress.Chainable<string>;
+        departmentCreate(token: string): Cypress.Chainable<string>;
+        teacherCreate(token: string): Cypress.Chainable<string>;
     }
   }
 
@@ -211,6 +213,76 @@ Cypress.Commands.add('majorCreate',(token:string)=>{
                 })
             })
     })
+})
+
+
+Cypress.Commands.add('resourceCategoryCreate',(token:string)=>{
+    cy.fixture("resourceCategory/create")
+    .then(data=>{
+        cy.request({
+            method:"POST",
+            url:"resource/category/uz",
+            body:data.body,
+            headers:{
+                "Authorization": `Bearer ${token}`,
+            },
+            failOnStatusCode:false
+        })
+            .then(()=>{
+                cy.getRequest(`/resource/category/uz?name=${data.body.name}`)
+                .then(res=>{
+                    return res.body.data.data[0]._id
+                })
+            })
+    })
+})
+
+Cypress.Commands.add('departmentCreate',(token:string)=>{
+    cy.fixture("department/create")
+    .then(data=>{
+        cy.request({
+            method:"POST",
+            url:"department/uz",
+            body:data.body,
+            headers:{
+                "Authorization": `Bearer ${token}`,
+            },
+            failOnStatusCode:false
+        })
+            .then(()=>{
+                cy.getRequest(`/department/uz?name=${data.body.name}`)
+                .then(res=>{
+                    return res.body.data.data[0]._id
+                })
+            })
+    })
+})
+
+
+Cypress.Commands.add('teacherCreate',(token:string)=>{
+    cy.departmentCreate(token)
+        .then(res=>{
+            cy.fixture("teachers/create")
+                .then(data=>{
+                    data.body.departmentId = res
+                    cy.request({
+                        method:"POST",
+                        url:"teacher/uz",
+                        body:data.body,
+                        headers:{
+                            "Authorization": `Bearer ${token}`,
+                        },
+                        failOnStatusCode:false
+                    })
+                        .then(()=>{
+                            cy.getRequest(`/teacher/uz?fullname=${data.body.fullname}`)
+                            .then(res=>{
+                                return res.body.data.data[0]._id
+                            })
+                        })
+                })
+        })
+    
 })
 
 
