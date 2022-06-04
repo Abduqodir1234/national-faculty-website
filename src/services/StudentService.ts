@@ -5,6 +5,8 @@ import Talenteds from "../models/talented";
 import BaseService from "./BaseService";
 import {Document} from 'mongoose'
 import ResponseService from "./response";
+import { TalentedStudentListQueryTypes } from "../middlewares/types/TalentedStudents";
+import {ObjectId} from "mongodb"
 
 class TalentedStudentsService extends BaseService{
     constructor(){
@@ -13,17 +15,27 @@ class TalentedStudentsService extends BaseService{
 
     async list(req:Request){
         try{
-            const page = req.query.page as unknown as number || 1
+            const {fullname,majorId,specialization,title,page} = req.query as unknown as TalentedStudentListQueryTypes
             const lang = req.params.lang as Lang["types"]
+            let query={}
+            if(fullname)
+                query={fullname}
+            if(majorId)
+                query={...query,majorId:new ObjectId(majorId)}
+            if(specialization)
+                query={...query,specialization}
+            if(title)
+                query={...query,title}
             const data = await Talenteds.aggregate([
+                {$match:query},
                 { '$facet': {
                     metadata: [ 
                         { $count: "total" }, 
-                        { $addFields: { page: page }},
+                        { $addFields: { page: page||1 }},
                         {$addFields: {limit:talentedStudentListLimit}} 
                     ],
                     data: [ 
-                        { $skip: (page-1)*talentedStudentListLimit },
+                        { $skip: (page||1-1)*talentedStudentListLimit },
                         { $limit: talentedStudentListLimit },
                         { $lookup:{
                             from:"majors",
@@ -38,7 +50,7 @@ class TalentedStudentsService extends BaseService{
                 } },
                 {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

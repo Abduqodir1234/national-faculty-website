@@ -42,7 +42,7 @@ class NewsService extends BaseService{
                         ]
                     },     
                 },
-                {$unwind:"$metadata"}
+                {$unwind:{path:"$metadata",preserveNullAndEmptyArrays:true}}
             ])
             return ResponseService.responseWithData(data[0])
         } catch(e){

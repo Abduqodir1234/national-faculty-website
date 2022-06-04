@@ -6,6 +6,7 @@ import BaseService from "./BaseService";
 import ResponseService from "./response";
 import {Document} from "mongoose"
 import {ObjectId} from "mongodb"
+import { DepartmentMajorListQueryProps } from "../middlewares/types/DepartmentMajor";
 
 class DepartmentMajorsService extends BaseService{
     constructor(){
@@ -15,10 +16,16 @@ class DepartmentMajorsService extends BaseService{
     async list(req:Request){
         try{
             const lang = req.params.lang as Lang["types"]
-            const {page,departmentId} = req.query as unknown as {page:number,departmentId:Document["_id"]}
+            const {page,departmentId,majorId,code} = req.query as unknown as DepartmentMajorListQueryProps
             let query={}
-            if(departmentId) query={departmentId:new ObjectId(departmentId)}
+            if(departmentId) 
+                query={departmentId:new ObjectId(departmentId)}
+            if(majorId)
+                query={...query,majorId:new ObjectId(majorId)}
+            if(code)
+                query={...query,code}
             const data = await DepartmentMajors.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
@@ -26,7 +33,7 @@ class DepartmentMajorsService extends BaseService{
                             {$addFields: {limit:departmentMajorsLimit}}
                         ],
                         data: [
-                            {$match:{...query}},
+                            
                             { $skip: (page||1-1)*departmentMajorsLimit }, 
                             { $limit: departmentMajorsLimit },
                             { $lookup:{
@@ -58,7 +65,9 @@ class DepartmentMajorsService extends BaseService{
                 },
                 {$unwind:"$metadata"},
             ])
-            return ResponseService.responseWithData(data)
+            console.log(query,data);
+            
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

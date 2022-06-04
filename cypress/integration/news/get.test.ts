@@ -1,99 +1,42 @@
-import "../../support/commands"
+import NewsMainTestService from "../../IntegrationServices/news/main.service"
 
 describe("News list API tests",() => {
-    let token:string
-    let id:string
+    const service = new NewsMainTestService()
+    let url!:string
 
     before(()=>{
-        cy.signIn()
-            .then((res)=>{
-                cy.register(res.token)
-                cy.signIn2()
-                    .then(res=>{
-                        token = res.token
-                        cy.newsCreate(res.token)
-                            .then(res=>{
-                                id = res
-                            })
-                    })
-            })
-
-        
+        service.beforeAll()
+        .then(()=>{
+            return cy.newsCreate(service.token)
+        })
+        .then(newsId=>{
+            service.id = newsId
+            url = `${service.url}/${newsId}/${service.supportedLangs[0]}`
+        })
     })
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
-
-        cy.deleteRequest(`news/${id}/uz`,token)
+        service.afterAll()
     })
 
-    it("get api working correctly or not ",()=>{
-        cy.getRequest(`/news/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data._id).exist
-        })
+    it("check get api with nonexist id",()=>{
+        service.testWithNonExistId("GET",`${service.url}`)
+    })
+    
+    it("check get api",()=>{
+        service.testGetByIdSuccess(url)
     })
 
-
-    it("send unexist id",()=>{
-        cy.getRequest(`/news/${123456789123}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Not found")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInGetById(`${service.url}/${service.id}`)
     })
 
-
-    it("send request without lang",()=>{
-        cy.post(`/news/${id}`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrlInSomeExceptions("GET",`${service.url}/${service.id}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.getRequest(`/news/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data._id).exist
-        })
-    })
-
-
-    it("send request with ru lang",()=>{
-        cy.getRequest(`/news/${id}/ru`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data._id).exist
-        })
-    })
-
-    it("send request with en lang",()=>{
-        cy.getRequest(`/news/${id}/en`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data._id).exist
-        })
-    })
-
-    it("send request with unsupported lang",()=>{
-        cy.getRequest(`news/${id}/de`)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("language check for unsupported languages",()=>{
+        service.langCheckForUnSupportedLangs("GET",`${service.url}/${service.id}`)
     })
 
 

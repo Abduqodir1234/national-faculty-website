@@ -1,105 +1,50 @@
+import TeachersMainTestService from "../../IntegrationServices/teachers/main.service"
 import "../../support/commands"
 
 describe("Teacher Delete API tests",()=>{
-
-    let token=""
-    let id:string
-
+    const service = new TeachersMainTestService()
+    let url!:string
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                    cy.teacherCreate(res.token)
-                            .then(res=>{
-                                id = res
-                            })
-                })
-        })
-
+       service.beforeAll()
+       .then(()=>{
+           return cy.teacherCreate2(service.token,service.departmentId)
+       })
+       .then(teacherId=>{
+           service.id = teacherId
+           url = `${service.url}/${teacherId}/${service.supportedLangs[0]}`
+       })
     })
+
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
+        service.afterAll()
     })
 
-
-    it("check delete api working well or not",()=>{
-        cy.deleteRequest(`/teacher/${id}/uz`,token)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.message).to.eq("Deleted")
-        })
+    it("check delete api with nonexist id",()=>{
+        service.testWithNonExistId("DELETE",`${service.url}`,service.token)
+    })
+    
+    it("check delete api",()=>{
+        service.testDeleteSuccess(url,service.token)
     })
 
-    it("send request without token",()=>{
-        cy.deleteRequest(`/teacher/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInDelete(`${service.url}/${service.id}`)
     })
 
-    it("send request with unexist id",()=>{
-        cy.deleteRequest(`/teacher/${123456789123}/uz`,token)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Not found")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("DELETE",`${service.url}/${service.id}`)
     })
 
-    it("send request without lang",()=>{
-        cy.deleteRequest(`/teacher/${id}`)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+    it("language check for unsupported languages",()=>{
+        service.langCheckForUnSupportedLangs("DELETE",`${service.url}/${service.id}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.deleteRequest(`/teacher/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
-    })
-
-
-    it("send request with ru lang",()=>{
-        cy.deleteRequest(`/teacher/${id}/ru`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq('No token')
-        })
-    })
-
-    it("send request with en lang",()=>{
-        cy.deleteRequest(`/teacher/${id}/en`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
-    })
-
-    it("send request with unsupported lang",()=>{
-        cy.deleteRequest(`teacher/${id}/de`)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("delete without token",()=>{
+        service.testRequestWithNoToken(
+            "DELETE",
+            url,
+        )
     })
 
 })

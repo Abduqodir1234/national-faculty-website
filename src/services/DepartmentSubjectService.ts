@@ -1,9 +1,11 @@
 import { Request } from "express";
 import { departmentSubjectListLimit } from "../config";
+import { DepartmentSubjectListQueryTypes } from "../middlewares/types/DepartmentSubject";
 import { Lang } from "../middlewares/types/LangTypes";
 import DepartmentSubject from "../models/departmentSubject";
 import BaseService from "./BaseService";
 import ResponseService from "./response";
+import {ObjectId} from "mongodb"
 
 class DepartmentSubjectService extends BaseService{
     constructor(){
@@ -12,17 +14,23 @@ class DepartmentSubjectService extends BaseService{
 
     async list(req:Request){
         try{
+            const {page,departmentId,subjectId} = req.query as unknown as DepartmentSubjectListQueryTypes
             const lang = req.params.lang as Lang["types"]
-            const page = req.query.page as unknown as number || 1
+            let query={}
+            if(departmentId)
+                query = {departmentId:new ObjectId(departmentId)}
+            if(subjectId)
+                query={...query,subjectId:new ObjectId(subjectId)}
             const data = await DepartmentSubject.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
-                            { $addFields: { page: page }},
+                            { $addFields: { page: page||1 }},
                             {$addFields: {limit:departmentSubjectListLimit}} 
                         ],
                         data: [ 
-                            { $skip: (page-1)*departmentSubjectListLimit }, 
+                            { $skip: (page||1-1)*departmentSubjectListLimit }, 
                             { $limit: departmentSubjectListLimit },
                             { $lookup:{
                                 from:"subjects",
@@ -52,7 +60,7 @@ class DepartmentSubjectService extends BaseService{
                     } },
                     {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

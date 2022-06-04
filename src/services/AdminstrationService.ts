@@ -6,6 +6,7 @@ import BaseService from "./BaseService";
 import ResponseService from "./response";
 import {Document} from "mongoose"
 import {ObjectId} from "mongodb"
+import { AdminstrationQueryProps } from "../middlewares/types/Adminstration";
 
 class AdminstrationService extends BaseService{
 
@@ -15,17 +16,25 @@ class AdminstrationService extends BaseService{
 
     async list(req:Request){
         try{
-            const page = req.query.page as unknown as number || 1
+            const {departmentId,teacherId,page} = req.query as unknown as AdminstrationQueryProps
             const lang = req.params.lang as Lang["types"]
+            let query={}
+            if(departmentId)
+                query = {departmentId:new ObjectId(departmentId)}
+            if(teacherId)
+                query = {...query,teacherId:new ObjectId(teacherId)}
+            console.log(query);
+            
             const data = await Adminstrations.aggregate([
+                {$match:query},
                 { '$facet': {
                         metadata: [ 
                             { $count: "total" }, 
-                            { $addFields: { page: page }},
+                            { $addFields: { page: page||1 }},
                             {$addFields: {limit:adminstrationListLimit}} 
                         ],
                         data: [ 
-                            { $skip: (page-1)*adminstrationListLimit }, 
+                            { $skip: (page||1-1)*adminstrationListLimit }, 
                             { $limit: adminstrationListLimit },
                             { $lookup:{
                                 from:"teachers",
@@ -56,13 +65,13 @@ class AdminstrationService extends BaseService{
                     } },
                     {$unwind:"$metadata"}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }
     }
 
-    async getByid(req:Request){
+    async getById(req:Request){
         try{
             const {lang,id} = req.params as {lang:Lang["types"],id:Document["_id"]}
             const data = await Adminstrations.findById({_id:new ObjectId(req.params.id)})

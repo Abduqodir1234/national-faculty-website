@@ -1,100 +1,46 @@
-import "../../support/commands"
-import { MajorsDataProps } from "../../types/majors"
+import ResourceCategoryMainTestService from "../../IntegrationServices/resourceCategory/main.service"
 
-describe("Majors List API tests",()=>{
-    let token=""
-    let mainData:MajorsDataProps
+describe("Resource Category List API tests",()=>{
+    const service = new ResourceCategoryMainTestService()
+    let url =`${service.url}/${service.supportedLangs[0]}`
 
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                    cy.resourceCategoryCreate(res.token)
-                })
+        service.beforeAll()
+        .then(()=>{
+            return cy.resourceCategoryCreate(service.token)
         })
-
-        cy.fixture("resourceCategory/create")
-            .then(data=>{
-                mainData = data
-            })
+        .then(resourceCategoryId=>{
+            service.id = resourceCategoryId
+           
+        })
     })
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
-
-        cy.getRequest(`/resource/category/uz?name=${mainData.body.name}`)
-            .then(res=>{
-                res.body.data.data.forEach((one:{_id:string})=>{
-                    cy.deleteRequest(`/majors/${one._id}/uz`,token)
-                })
-            })
+        service.afterAll()
     })
 
 
-    it("check list search",()=>{
-        cy.getRequest(`/resource/category/uz?name=${mainData.body.name}`)
-        .then(res=>{
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data.metadata.total).to.eq(1)
-            expect(res.body.data.data).to.have.length(1)
-        })
+
+    it("check get api",()=>{
+        service.testListSuccess(url)
+    })
+
+    it("check get api with name",()=>{
+        service.testListQuerySearch(`${url}?name=${service.mainData.body.name}`)
     })
 
 
-    it("send request without lang",()=>{
-        cy.post(`/resource/category/`)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInList(`${service.url}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.getRequest(`/resource/category/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data.data).exist
-            expect(res.body.data.metadata).exist
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("GET",`${service.url}`)
     })
 
-
-    it("send request with ru lang",()=>{
-        cy.getRequest(`/resource/category/ru`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data.data).exist
-            expect(res.body.data.metadata).exist
-        })
+    it("language check for unsupported languages",()=>{
+        service.langCheckForUnSupportedLangs("GET",`${service.url}`)
     })
-
-    it("send request with en lang",()=>{
-        cy.getRequest(`/resource/category/en`)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data.metadata).exist
-        })
-    })
-
-    it("send request with unsupported lang",()=>{
-        cy.getRequest("resource/category/de")
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
-    })
-
-
 
 })

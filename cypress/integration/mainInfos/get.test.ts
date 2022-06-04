@@ -1,68 +1,32 @@
 ///<reference types="cypress"/>
+import MainInfosMainTestService from "../../IntegrationServices/mainInfos/main.service"
 import "../../support/commands"
 
 describe("Main Infos GET API tests",()=>{
+    const service = new MainInfosMainTestService()
+    const url = `${service.url}/${service.supportedLangs[0]}`
 
-    let token = ""
+    before(()=>{
+        service.beforeAll()
+    })
+
+    after(()=>{
+        service.afterAll()
+    })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInGetById(service.url)
+    })
+
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("GET",service.url)
+    })
+
+    it("language check for supported languages",()=>{
+        service.langCheckForUnSupportedLangs("GET",service.url)
+    })
 
     it("get working correctly",()=>{
-        cy.getRequest("/main/infos/uz",)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data).exist
-            expect(res.body.data._id).exist
-        })
-    })
-
-    it("send request without lang",()=>{
-        cy.getRequest("/main/infos/",token,false)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
-    })
-
-    it("send request with uz lang",()=>{
-        cy.getRequest("/main/infos/uz","",false)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data).exist
-            expect(res.body.data._id).exist
-        })
-    })
-
-
-    it("send request with ru lang",()=>{
-        cy.getRequest("/main/infos/ru","",false)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data).exist
-            expect(res.body.data._id).exist
-        })
-    })
-
-    it("send request with en lang",()=>{
-        cy.getRequest("/main/infos/en","",false)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.data).exist
-            expect(res.body.data._id).exist
-        })
-    })
-
-    it("send request with de lang",()=>{
-        cy.getRequest("/main/infos/de","",false)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-            
-        })
+        service.testGetByIdSuccess(`${service.url}/${service.supportedLangs[0]}`)
     })
 
 

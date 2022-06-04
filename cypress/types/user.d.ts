@@ -23,8 +23,8 @@ export interface RegisterDataProps{
     body:{
         fullname:string;
         email:string;
-        password:string;
-        confirm_password:string;
+        password?:string;
+        confirm_password?:string;
     },
     body2:{
         fullname:string;

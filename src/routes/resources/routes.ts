@@ -22,14 +22,17 @@ resourcesRoutes.route("/:lang")
 
 resourcesRoutes.route("/:id/:lang")
     .get(
+        langChecker,
         (req:Request,res:Response) => controller.get(req,res)
     )
     .patch(
+        langChecker,
         verifyToken,
         resourcesSchemaValidation,
         (req:RequestWithUser,res:Response) => controller.update(req,res)
     )
     .delete(
+        langChecker,
         verifyToken,
         (req:RequestWithUser,res:Response) => controller.delete(req,res)
     )

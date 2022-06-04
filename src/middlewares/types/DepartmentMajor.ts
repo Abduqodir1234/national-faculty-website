@@ -1,6 +1,14 @@
+import {Document} from "mongoose"
 export interface DepartmentMajorsData{
-    majorId:string;
+    majorId:Document["_id"];
     degree: "bachelor" | "master" | "doctoral";
-    departmentId:string;
+    departmentId:Document["_id"];
+    code:string
+}
+
+export interface DepartmentMajorListQueryProps{
+    page?:number;
+    departmentId?:Document["_id"];
+    majorId?:Document["_id"];
     code:string
 }

@@ -1,105 +1,60 @@
+import DeprtmentTestService from "../../IntegrationServices/department/create.service"
 import "../../support/commands"
 
 describe("Department Delete API tests",()=>{
 
-    let token=""
-    let id:string
+
+    const service = new DeprtmentTestService()
+    let url :string
 
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                    cy.departmentCreate(res.token)
-                            .then(res=>{
-                                id = res
-                            })
-                })
-        })
-
-    })
-
-    after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
+        service.beforeAll()
+            .then(()=>{
+                cy.departmentCreate(service.token)
+                    .then(departmentId=>{
+                        service.id = departmentId;
+                        url = `${service.url}/${service.id}/${service.supportedLangs[0]}`
+                    })
             })
     })
 
+    after(()=>{
+        service.afterAll()
+            .then(()=>null)
+    })
 
     it("check delete api working well or not",()=>{
-        cy.deleteRequest(`/department/${id}/uz`,token)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.message).to.eq("Deleted")
-        })
+        service.testDeleteSuccess(
+            url,
+            service.token
+        )
     })
 
     it("send request without token",()=>{
-        cy.deleteRequest(`/department/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+        service.testRequestWithNoToken(
+            "DELETE",
+            url
+        )
     })
 
     it("send request with unexist id",()=>{
-        cy.deleteRequest(`/department/${123456789123}/uz`,token)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Not found")
-        })
+        service.testWithNonExistId(
+            "DELETE",
+            service.url,
+            service.token
+        )
     })
 
-    it("send request without lang",()=>{
-        cy.deleteRequest(`/department/${id}`)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInDelete(`${service.url}/${service.id}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.deleteRequest(`/department/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("DELETE",`${service.url}/${service.id}`)
     })
 
-
-    it("send request with ru lang",()=>{
-        cy.deleteRequest(`/department/${id}/ru`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq('No token')
-        })
-    })
-
-    it("send request with en lang",()=>{
-        cy.deleteRequest(`/department/${id}/en`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
-    })
-
-    it("send request with unsupported lang",()=>{
-        cy.deleteRequest(`department/${id}/de`)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("language check for Unsupported languages",()=>{
+        service.langCheckForUnSupportedLangs("DELETE",`${service.url}/${service.id}`)
     })
 
 })

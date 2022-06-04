@@ -1,79 +1,42 @@
-import "../../support/commands"
+import UserMainTestService from "../../IntegrationServices/user/main.service"
 
 describe("User Get API tests",() => {
 
-    let token = ""
+    const service = new UserMainTestService()
+    let url = `${service.url}/${service.supportedLangs[0]}`
 
     before(()=>{
-        cy.signIn()
-            .then(res=>{
-                token = res.token
-            })
+        service.beforeAll()
+    })
+
+    after(()=>{
+        service.afterAll()
     })
 
 
     it("Get user with token",()=>{
-        cy.getRequest("/user/uz",token)
-            .then(res=>{
-                expect(res.status).to.eq(200)
-                expect(res.body.error).to.eq(false)
-                expect(res.body.data._id).exist
-            })
+        service.getUser()
     })
 
     it("Get user without token",()=>{
-        cy.getRequest("/user/uz","")
-            .then(res=>{
-                expect(res.status).to.eq(403)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("No token")
-            })
+        service.testRequestWithNoToken(
+            "GET",
+            url
+        )
     })
 
-    it("send request without lang",()=>{
-        cy.getRequest("/user/",token,false)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInGetByIdinTokenBasedAPI(`${service.url}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.getRequest("/user/uz","",false)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("GET",`${service.url}`)
     })
 
-
-    it("send request with ru lang",()=>{
-        cy.getRequest("/user/ru","",false)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("language check for unsupported languages",()=>{
+        service.langCheckForUnSupportedLangs("GET",`${service.url}`)
     })
 
-    it("send request with en lang",()=>{
-        cy.getRequest("/user/en","",false)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
-    })
-
-    it("send request with de lang",()=>{
-        cy.getRequest("/user/de","",false)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
-    })
+   
 
 })

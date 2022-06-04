@@ -1,183 +1,122 @@
-import "../../support/commands"
-import { ContestDataProps } from "../../types/contest"
+import ContestMainTestService from "../../IntegrationServices/contest/main.service"
 
 
-describe("Contest Create API tests",()=>{
-    let mainData:ContestDataProps
-    let token:string
-    let img:File
-    let id:string
+describe("Contest update API tests",()=>{
+    const service = new ContestMainTestService()
+    let url:string
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                    cy.contestCreate(res.token)
-                    .then(res=>{
-                        id = res
+        service.beforeAll()
+            .then(()=>{
+                cy.contestCreate(service.token)
+                    .then(contestId=>{
+                        service.id = contestId
+                        url=`${service.url}/${contestId}/${service.supportedLangs[0]}`
+
                     })
-                })
-        })
-
-        cy.fixture("contest/update")
-            .then(data=>{
-                mainData = data
             })
-
-        cy.imageReturner()
-            .then(data=>img=data)
+        
     })
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
-
-        cy.getRequest(`/contest/uz?name=${mainData.body.title}`)
-            .then(res=>{
-                res?.body?.data?.data?.forEach((one:{_id:string})=>{
-                    cy.deleteRequest(`/contest/${one._id}/uz`,token)
-                })
-            })
+        service.afterAll()
+            .then(()=>null)
     })
 
     it("send request without token",()=>{
-        cy.patch(`contest/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+        service.testRequestWithNoToken(
+            "PATCH",
+            url
+        )
     })
 
-    it("check news update api working or not",()=>{
-        const {date,desc,title} = mainData.body
+    it("check news create api working or not",()=>{
+        const {date,desc,title} = service.mainData.body
         let data = new FormData()
         data.append("title",title)
         data.append("desc",desc)
         data.append("date",date)
-        data.append("img",img)
-        cy.patch(`contest/${id}/uz`,data,token)
-        .then(res=>{
-            const resBody = JSON.parse(Cypress.Blob.arrayBufferToBinaryString(res.body))
-            expect(res.status).to.eq(200)
-            expect(resBody.error).to.eq(false)
-            expect(resBody.message).to.eq("Updated")
-        })
+        data.append("img",service.img)
+        service.testUpdateSuccessWithBlob(
+            url,
+            data,
+            service.token
+        )
     })
 
     it("send request with body without title",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withoutTitle,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"title\" is required")
-        })
+        service.testRequiredAttribute(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withoutTitle,
+            "title"
+        )
     })
 
     it("send request with body with wrong type of title",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withWrongTitle,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"title\" must be a string")
-        })
+        service.testRequiredAttributeType(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withWrongTitle,
+            "title",
+            "string"
+        )
     })
 
     it("send request with body with wrong type of desc",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withWrongDesc,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"desc\" must be a string")
-        })
+        service.testRequiredAttributeType(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withWrongDesc,
+            "desc",
+            "string"
+        )
     })
 
     it("send request with body with future date",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withWrongDate,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"date\" must be less than or equal to \"now\"")
-        })
-    })
-
-    it("send request with body without image",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.body,token)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.message).to.eq("Updated")
-        })
+        service.testRequiredAttributeInCustomValidation(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withWrongDate,
+            "\"date\" must be less than or equal to \"now\"",
+        )
     })
 
     it("send request with body without desc",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withoutDesc,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"desc\" is required")
-        })
+        service.testRequiredAttribute(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withoutDesc,
+            "desc"
+        )
     })
 
 
     it("send request with body without date",()=>{
-        cy.patch(`contest/${id}/uz`,mainData.withoutDate,token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"date\" is required")
-        })
-    })
-
-    it("send request without lang",()=>{
-        cy.patch(`contest/${id}`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
-    })
-
-    it("send request with uz lang",()=>{
-        cy.patch(`contest/${id}/uz`,)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+        service.testRequiredAttribute(
+            "PATCH",
+            url,
+            service.token,
+            service.mainData.withoutDate,
+            "date"
+        )
     })
 
 
-    it("send request with ru lang",()=>{
-        cy.patch(`contest/${id}/ru`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInUpdate(`${service.url}/${service.id}`)
     })
 
-    it("send request with en lang",()=>{
-        cy.patch(`contest/${id}/en`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("PATCH",`${service.url}/${service.id}`)
     })
 
-    it("send request with unsupported lang",()=>{
-        cy.patch(`contest/${id}/de`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForUnSupportedLangs("PATCH",`${service.url}/${service.id}`)
     })
-
 
 })

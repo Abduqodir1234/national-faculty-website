@@ -31,7 +31,7 @@ class SubjectService extends BaseService{
                         { $unset:["__v","majorId"]},
                     ]
                 } },
-                {$unwind:"$metadata"}
+                {$unwind:{path:"$metadata",preserveNullAndEmptyArrays:true}}
             ])
             console.log(data);
             

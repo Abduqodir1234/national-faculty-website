@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import TalentController from "../../controllers/talented";
 import PhotoCheck from "../../middlewares/fileUpload/photoCheck";
 import { talentedSchemaValidation } from "../../middlewares/joi/talented/schema";
+import { talentedUpdateSchemaValidation } from "../../middlewares/joi/talented/update";
 import langChecker from "../../middlewares/langChecker";
 import verifyToken from "../../middlewares/verifyToken";
 
@@ -17,6 +18,7 @@ studentRoutes.route("/:lang")
         (req:Request,res:Response) => controllers.create(req,res)
     )
     .get(
+        langChecker,
         (req:Request,res:Response) => controllers.list(req,res)
     )
 studentRoutes.route("/:id/:lang")
@@ -24,7 +26,7 @@ studentRoutes.route("/:id/:lang")
         langChecker,
         verifyToken,
         PhotoCheck,
-        talentedSchemaValidation,
+        talentedUpdateSchemaValidation,
         (req:Request,res:Response) => controllers.update(req,res)
     )
     .get(

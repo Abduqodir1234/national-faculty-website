@@ -1,140 +1,130 @@
-import "../../support/commands"
-import { DepartmentDataProps } from "../../types/department"
+import DeprtmentTestService from "../../IntegrationServices/department/create.service"
 
 describe("Department Create API tests",()=>{
 
-    let token=""
-    let mainData:DepartmentDataProps
+    const service = new DeprtmentTestService()
+    const url = `${service.url}/${service.supportedLangs[0]}`
 
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                })
-        })
-
-        cy.fixture("department/create")
-            .then(data=>{
-                mainData = data
-            })
+        service.beforeAll()
+            .then(()=>null)
     })
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
-
-        cy.getRequest(`/department/uz?name=${mainData.body.name}`)
-            .then(res=>{
-                res?.body?.data?.data?.forEach((one:{_id:string})=>{
-                    cy.deleteRequest(`/department/${one._id}/uz`,token)
-                })
-            })
+        service.afterAll()
+            .then(()=>null)
     })
 
 
     it("send without token",()=>{
-        cy.post("/department/uz")
-            .then(res=>{
-                expect(res.status).to.eq(403)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("No token")
-            })
+        service.testRequestWithNoToken(
+            "POST",
+            url
+        )
     })
 
     it("create api working or not",()=>{
-        cy.post("/department/uz",mainData.body,token)
-            .then(res=>{
-                expect(res.body.error).to.eq(false)
-                expect(res.status).to.eq(201)
-                expect(res.body.message).to.eq('created')
-            })
+        service.testCreateSuccess(
+            url,
+            service.mainData.body,
+            service.token
+        )
     })
 
     it("send request with empty body",()=>{
-        cy.post("/department/uz",{},token)
-            .then(res=>{
-                expect(res.status).to.eq(400)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("\"name\" is required")
-            })
+        service.testRequiredAttribute(
+            "POST",
+            url,
+            service.token,
+            {},
+            "name"
+        )
     })
 
     it("send request with body without name",()=>{
-        cy.post("department/uz",mainData.withoutName,token)
-            .then(res=>{
-                expect(res.status).to.eq(400)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("\"name\" is required")
-            })
+        service.testRequiredAttribute(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withoutName,
+            "name"
+        )
+    })
+
+    it("send request with body with wrong type of name",()=>{
+        service.testRequiredAttributeType(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withWrongTypeOfName,
+            "name",
+            "string"
+        )
     })
 
     it("send request with body without desc",()=>{
-        cy.post("department/uz",mainData.withoutDesc,token)
-            .then(res=>{
-                expect(res.status).to.eq(400)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("\"desc\" is required")
-            })
+        service.testRequiredAttribute(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withoutDesc,
+            "desc"
+        )
+        
+    })
+
+    it("send request with body with wrong type of desc",()=>{
+        service.testRequiredAttributeType(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withWrongTypeOfDesc,
+            "desc",
+            "string"
+        )
     })
 
     it("send request with body without address",()=>{
-        cy.post("department/uz",mainData.withoutAddress,token)
-            .then(res=>{
-                expect(res.status).to.eq(400)
-                expect(res.body.error).to.eq(true)
-                expect(res.body.message).to.eq("\"address\" is required")
-            })
+        service.testRequiredAttribute(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withoutAddress,
+            "address"
+        )
     })
 
-    it("send request without lang",()=>{
-        cy.post("department")
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+    it("send request with body with wrong type of address",()=>{
+        service.testRequiredAttributeType(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withWrongTypeOfAddress,
+            "address",
+            "string"
+        )
     })
 
-    it("send request with uz lang",()=>{
-        cy.post("department/uz",)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request with unexist or wrong dean",()=>{
+        service.testingAccordingCustomValidation(
+            "POST",
+            url,
+            service.token,
+            service.mainData.withUnexistTeacherIdForDean,
+            "Teacher not found"
+        )
     })
 
-
-    it("send request with ru lang",()=>{
-        cy.post("department/ru")
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInCreate(service.url)
     })
 
-    it("send request with en lang",()=>{
-        cy.post("department/en")
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("POST",service.url)
     })
 
-    it("send request with unsupported lang",()=>{
-        cy.post("department/de")
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForUnSupportedLangs("POST",service.url)
     })
 
 

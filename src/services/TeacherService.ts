@@ -18,7 +18,7 @@ class TeacherService extends BaseService{
             const {departmentId,educationTitle,email,fullname,page} = req.query as unknown as TeacherListQueryProps
             let query={}
             if(departmentId)
-                query = {departmentId}
+                query = {departmentId:new ObjectId(departmentId)}
             if(educationTitle)
                 query={...query,educationTitle}
             if(email)

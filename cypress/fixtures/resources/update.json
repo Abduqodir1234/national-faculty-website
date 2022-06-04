@@ -1,0 +1,34 @@
+{
+    "body":{
+        "title":"UpdatedSome titledfasdfasdfasdfasdfasdf",
+        "desc":"UpdatedSome descqweer1234123412341234123ewdfasdsasdf2r3",
+        "categoryId":"123456789123"
+    },
+    "withoutTitle":{
+        "desc":"Some descqweer1234123412341234123ewdfasdsasdf2r3",
+        "categoryId":"123456789123"
+    },
+    "withoutDesc":{
+        "title":"Some titledfasdfasdfasdfasdfasdf",
+        "categoryId":"123456789123"
+    },
+    "withoutCategoryId":{
+        "title":"Some titledfasdfasdfasdfasdfasdf",
+        "desc":"Some descqweer1234123412341234123ewdfasdsasdf2r3"
+    },
+    "withWrongTypeTitle":{
+        "title":544545454,
+        "desc":"Some descqweer1234123412341234123ewdfasdsasdf2r3",
+        "categoryId":"123456789123"
+    },
+    "withWrongTypeDesc":{
+        "title":"Some titledfasdfasdfasdfasdfasdf",
+        "desc":6546546556464654646564,
+        "categoryId":"123456789123"
+    },
+    "withWrongTypeCategoryId":{
+        "title":"Some titledfasdfasdfasdfasdfasdf",
+        "desc":"Some descdfasdfasdfasdfasdfasdf",
+        "categoryId":123456789123
+    }
+}

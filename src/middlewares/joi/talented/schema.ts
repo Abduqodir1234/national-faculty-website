@@ -3,9 +3,9 @@ import Joi from "joi";
 import Majors from "../../../models/majors";
 import { RequestWithUser } from "../../types/RequestWithUser";
 
-const schema = Joi.object({
+export const schema = Joi.object({
     fullname:Joi.string().required(),
-    birthdate:Joi.date().max("now"),
+    birthdate:Joi.date().less("now").required(),
     address:Joi.string().required(),
     title:Joi.string().required(),
     majorId:Joi.string().hex().length(24).required(),

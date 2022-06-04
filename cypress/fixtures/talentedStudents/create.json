@@ -1,0 +1,173 @@
+{
+    "body":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutFullname":{
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutBirthdate":{
+        "fullname":"Sapayev Murodjon",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutAddress":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutTitle":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutMajorId":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutSpecialization":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        
+        "majorId":"123456789123456789123456",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutDepartmentId":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withoutDesc":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "departmentId":null
+    },
+    "withFutureBirthdate":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2102",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfFullname":{
+        "fullname":213451521,
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfBirthdate":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"345646465465464",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfAddress":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":215689658986598,
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfTitle":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":65465565,
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfMajorId":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":123456789123456789123456,
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+    "withWrongTypeOfSpecialization":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":5421556256,
+        "desc":"Yaxshi talaba"
+    },
+    "withUnexistDepartmentId":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+
+    "withUnexistMajorId":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"Software engineer",
+        "desc":"Yaxshi talaba"
+    },
+
+    "withWrongTypeOfDesc":{
+        "fullname":"Sapayev Murodjon",
+        "birthdate":"01-01-2002",
+        "address":"Toshkent parkent",
+        "title":"O'quvchi",
+        "majorId":"123456789123456789123456",
+        "specialization":"5421556256",
+        "desc":6546462265532
+    }
+
+}

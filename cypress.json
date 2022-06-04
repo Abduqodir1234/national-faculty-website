@@ -1,3 +1,7 @@
 {
-    "baseUrl": "http://localhost:5000/api/v1"
+    "baseUrl": "http://localhost:5000/api/v1",
+    "env":{
+        "supportedLangs":["uz","ru","en"],
+        "unSupportedLangs":["de"]
+    }
 }

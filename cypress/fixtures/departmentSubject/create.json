@@ -1,0 +1,35 @@
+{
+    "body":{
+        "subjectId":"123456789123456789123456",
+        "departmentId":"123456789123456789123456",
+        "degree":"bachelor"
+        
+    },
+    "withoutSubjectId":{
+        "departmentId":"123456789123456789123456",
+        "degree":"bachelor"
+    },
+    "withoutDepartmentId":{
+        "subjectId":"123456789123456789123456",
+        "degree":"bachelor"
+    },
+    "withoutDegree":{
+        "subjectId":"123456789123456789123456",
+        "departmentId":"123456789123456789123456"
+    },
+    "withWrongTypeOfSubjectId":{
+        "subjectId":123456789123456789123456,
+        "departmentId":"123456789123456789123456",
+        "degree":"bachelor"
+    },
+    "withWrongTypeOfDepartmentId":{
+        "subjectId":"123456789123456789123456",
+        "departmentId":123456789123456789123456,
+        "degree":"bachelor"
+    },
+    "withWrongTypeOfDegree":{
+        "subjectId":"123456789123456789123456",
+        "departmentId":"123456789123456789123456",
+        "degree":12345
+    }
+}

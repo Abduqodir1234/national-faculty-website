@@ -6,6 +6,7 @@ import Resources from "../models/resources";
 import BaseService from "./BaseService";
 import ResponseService from "./response";
 import {ObjectId} from "mongodb"
+import { ResourcesListQuery } from "../middlewares/types/resources";
 
 class ResourcesService extends BaseService{
     constructor(){
@@ -15,11 +16,14 @@ class ResourcesService extends BaseService{
     async list(req:Request){
         try{
             const lang = req.params.lang as Lang["types"]
-            const {page,categoryId} = req.query as unknown as {page:number,categoryId:Document["_id"]}
+            const {page,title,categoryId} = req.query as unknown as ResourcesListQuery
             let query={}
             if(categoryId)
                 query={categoryId:new ObjectId(categoryId)}
+            if(title)
+                query={...query,[`title_${lang}`]:title}
             const data = await Resources.aggregate([
+                {$match:query},
                 { '$facet': {
                     metadata: [ 
                         { $count: "total" }, 
@@ -27,7 +31,6 @@ class ResourcesService extends BaseService{
                         {$addFields: {limit:resourceCategoryListLimit}} 
                     ],
                     data: [
-                        {$match:query},
                         { $skip: (page||1-1)*resourceCategoryListLimit }, 
                         { $limit: resourceCategoryListLimit },
                         { $lookup:{
@@ -45,9 +48,9 @@ class ResourcesService extends BaseService{
                         }},
                     ]
                 } },
-                {$unwind:"$metadata"}
+                {$unwind:{path:"$metadata",preserveNullAndEmptyArrays:true}}
             ])
-            return ResponseService.responseWithData(data)
+            return ResponseService.responseWithData(data[0])
         } catch(e){
             return ResponseService.internalServerError(e)
         }

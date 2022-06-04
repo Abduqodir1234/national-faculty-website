@@ -1,116 +1,60 @@
-import "../../support/commands"
-import { ResourceCategoryDataProps } from "../../types/resourceCategory"
-
-describe("Majors Update API tests",()=>{
-    let token=""
-    let mainData:ResourceCategoryDataProps
-    let id:string
+import ResourceCategoryMainTestService from "../../IntegrationServices/resourceCategory/main.service"
+describe("Resource Category Update API tests",()=>{
+    const service = new ResourceCategoryMainTestService()
+    let url!:string
 
     before(()=>{
-        cy.signIn()
-        .then((res)=>{
-            cy.register(res.token)
-            cy.signIn2()
-                .then(res=>{
-                    token = res.token
-                    cy.resourceCategoryCreate(res.token)
-                            .then(res=>{
-                                id = res
-                            })
-                })
+        service.beforeAll()
+        .then(()=>{
+            return cy.resourceCategoryCreate(service.token)
         })
-
-        cy.fixture("resourceCategory/update")
-            .then(data=>{
-                mainData = data
-            })
+        .then(resourceCategoryId=>{
+            service.id = resourceCategoryId
+            url = `${service.url}/${resourceCategoryId}/${service.supportedLangs[0]}`
+        })
     })
 
     after(()=>{
-        cy.task("removeUsers2")
-            .then((res)=>{
-                console.log(res);
-            })
-            cy.getRequest(`/resource/category/uz?name=${mainData.body.name}`)
-            .then(res=>{
-                res.body.data.data.forEach((one:{_id:string})=>{
-                    cy.deleteRequest(`/resource/category/${one._id}/uz`,token)
-                })
-            })
+        service.afterAll()
     })
 
 
-    it("send request without token",()=>{
-        cy.patch(`/resource/category/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("update api working correctly or not",()=>{
+        service.testUpdateSuccess(
+            url,
+            service.mainData.body,
+            service.token
+        )
     })
+
 
     it("send request with empty body",()=>{
-        cy.patch(`/resource/category/${id}/uz`,{},token)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("\"name\" is required")
-        })
+        service.testRequiredAttribute(
+            "PATCH",
+            url,
+            service.token,
+            {},
+            "name"
+        )
     })
 
-    it("update api working well or not",()=>{
-        cy.patch(`/resource/category/${id}/uz`,mainData.body,token)
-        .then(res=>{
-            expect(res.status).to.eq(200)
-            expect(res.body.error).to.eq(false)
-            expect(res.body.message).to.eq("Updated")
-        })
+    it("send request without token",()=>{
+        service.testRequestWithNoToken(
+            "PATCH",
+            url,
+        )
     })
 
-
-    it("send request without lang",()=>{
-        cy.patch(`/resource/category/${id}`,{},"",false)
-        .then(res=>{
-            expect(res.status).to.eq(404)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Route not found")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForSupportedLangsInUpdate(`${service.url}/${service.id}`)
     })
 
-    it("send request with uz lang",()=>{
-        cy.patch(`/resource/category/${id}/uz`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("send request without language in url",()=>{
+        service.requestWithoutLangInUrl("PATCH",`${service.url}/${service.id}`)
     })
 
-
-    it("send request with ru lang",()=>{
-        cy.patch(`/resource/category/${id}/ru`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
+    it("language check for supported languages",()=>{
+        service.langCheckForUnSupportedLangs("PATCH",`${service.url}/${service.id}`)
     })
 
-    it("send request with en lang",()=>{
-        cy.patch(`/resource/category/${id}/en`)
-        .then(res=>{
-            expect(res.status).to.eq(403)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("No token")
-        })
-    })
-
-    it("send request with unsupported lang",()=>{
-        cy.patch(`resource/category/${id}/de`)
-        .then(res=>{
-            expect(res.status).to.eq(400)
-            expect(res.body.error).to.eq(true)
-            expect(res.body.message).to.eq("Lang is not supported")
-        })
-    })
 })
