@@ -1,5 +1,4 @@
 import { AboutDataProps } from "../../types/about";
-import { DepartmentMajorsDataProps } from "../../types/departmentMajors";
 import BaseTestService from "../BaseService";
 
 

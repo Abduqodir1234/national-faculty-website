@@ -1,7 +1,4 @@
 import ContestMainTestService from "../../IntegrationServices/contest/main.service"
-import "../../support/commands"
-import { ContestDataProps } from "../../types/contest"
-import { NewsDataProps } from "../../types/news"
 
 describe("Contest List API tests",()=>{
 

@@ -1,5 +1,4 @@
 import TeachersMainTestService from "../../IntegrationServices/teachers/main.service"
-import "../../support/commands"
 
 describe("Teacher Delete API tests",()=>{
     const service = new TeachersMainTestService()

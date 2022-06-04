@@ -1,6 +1,4 @@
 import NewsMainTestService from "../../IntegrationServices/news/main.service"
-import "../../support/commands"
-import { NewsDataProps } from "../../types/news"
 
 describe("News Get API tests",()=>{
 

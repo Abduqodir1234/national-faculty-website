@@ -1,6 +1,5 @@
 import BaseTestService from "../BaseService";
 import {Document} from "mongoose"
-import { UserRegisterDataDocument } from "../../../src/middlewares/types/User";
 import { RegisterDataProps } from "../../types/user";
 
 class UserMainTestService extends BaseTestService{

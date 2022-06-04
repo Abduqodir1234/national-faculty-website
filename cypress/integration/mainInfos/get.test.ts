@@ -1,6 +1,4 @@
-///<reference types="cypress"/>
 import MainInfosMainTestService from "../../IntegrationServices/mainInfos/main.service"
-import "../../support/commands"
 
 describe("Main Infos GET API tests",()=>{
     const service = new MainInfosMainTestService()

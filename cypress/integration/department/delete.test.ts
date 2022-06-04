@@ -1,5 +1,4 @@
 import DeprtmentTestService from "../../IntegrationServices/department/create.service"
-import "../../support/commands"
 
 describe("Department Delete API tests",()=>{
 

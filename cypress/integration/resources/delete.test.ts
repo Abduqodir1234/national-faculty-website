@@ -1,5 +1,4 @@
 import ResourcesMainTestService from "../../IntegrationServices/resources/main.service"
-import "../../support/commands"
 
 describe("Resources Delete API tests",() => {
     const service = new ResourcesMainTestService()

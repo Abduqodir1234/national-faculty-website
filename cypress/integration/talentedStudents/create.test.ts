@@ -1,4 +1,3 @@
-import DepartmentSubjectsCreateTestService from "../../IntegrationServices/departmentSubjects/create.service"
 import TalentedStudentsCreateTestService from "../../IntegrationServices/talentedStudents/create.service"
 
 describe("Talented Students Create API tests",()=>{

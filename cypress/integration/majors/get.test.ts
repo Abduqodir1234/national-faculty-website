@@ -1,4 +1,5 @@
 import MajorsMainTestService from "../../IntegrationServices/majors/main.service"
+
 describe("Majors Get API tests",()=>{
     const service = new MajorsMainTestService()
     let url!:string

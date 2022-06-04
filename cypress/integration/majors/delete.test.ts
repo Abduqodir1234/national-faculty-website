@@ -1,5 +1,4 @@
 import MajorsMainTestService from "../../IntegrationServices/majors/main.service"
-import "../../support/commands"
 
 describe("Majors Delete API tests",()=>{
     const service = new MajorsMainTestService()

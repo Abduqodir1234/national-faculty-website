@@ -1,7 +1,4 @@
 import AdminstrationMainTestService from "../../IntegrationServices/adminstration/main.service"
-import "../../support/commands"
-import { AdminstrationDataProps } from "../../types/adminstation"
-import { SubjectDataProps } from "../../types/subject"
 
 
 describe("Adminstration list API tests",()=>{

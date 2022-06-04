@@ -1,6 +1,4 @@
 import TeachersMainTestService from "../../IntegrationServices/teachers/main.service"
-import "../../support/commands"
-import { TeacherDataProps } from "../../types/teachers"
 
 describe("Teachers Update API tests",()=>{
     const service = new TeachersMainTestService()

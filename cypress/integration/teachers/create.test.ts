@@ -1,5 +1,3 @@
-import { TeacherDataProps } from "../../types/teachers"
-import "../../support/commands"
 import TeachersMainTestService from "../../IntegrationServices/teachers/main.service"
 
 describe("Teacher Delete API tests",()=>{

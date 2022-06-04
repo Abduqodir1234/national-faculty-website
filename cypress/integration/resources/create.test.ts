@@ -1,5 +1,3 @@
-import { ResourcesDataProps } from "../../types/resources"
-import "../../support/commands"
 import ResourcesMainTestService from "../../IntegrationServices/resources/main.service"
 
 describe("Resources Create API tests",()=>{

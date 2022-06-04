@@ -1,4 +1,3 @@
-import "../../support/commands"
 import AboutMainTestService from "../../IntegrationServices/about/main.service"
 
 describe("About Update API tests",()=>{

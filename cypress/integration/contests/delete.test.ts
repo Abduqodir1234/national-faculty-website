@@ -1,5 +1,4 @@
 import ContestMainTestService from "../../IntegrationServices/contest/main.service"
-import "../../support/commands"
 
 describe("Contest Delete API tests",()=>{
     const service = new ContestMainTestService()

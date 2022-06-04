@@ -1,6 +1,4 @@
 import ContestCreateTestService from "../../IntegrationServices/contest/create.service"
-import "../../support/commands"
-import { ContestDataProps } from "../../types/contest"
 
 
 describe("Contest Create API tests",()=>{

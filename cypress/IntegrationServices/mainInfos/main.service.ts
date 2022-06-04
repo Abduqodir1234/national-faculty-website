@@ -1,6 +1,5 @@
 import BaseTestService from "../BaseService";
 import {Document} from "mongoose"
-import { DepartmentSubjectsDataProps } from "../../types/departmentSubject";
 import { MainInfosDataProps } from "../../types/mainInfos";
 
 class MainInfosMainTestService extends BaseTestService{

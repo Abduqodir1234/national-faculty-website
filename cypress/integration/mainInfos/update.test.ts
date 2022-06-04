@@ -1,5 +1,4 @@
 import MainInfosMainTestService from "../../IntegrationServices/mainInfos/main.service"
-import "../../support/commands"
 import { MainInfosDataProps } from "../../types/mainInfos"
 
 describe("Main Infos API tests",()=>{

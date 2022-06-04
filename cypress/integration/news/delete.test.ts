@@ -1,5 +1,4 @@
 import NewsMainTestService from "../../IntegrationServices/news/main.service"
-import "../../support/commands"
 
 describe("News Delete API tests",()=>{
 
