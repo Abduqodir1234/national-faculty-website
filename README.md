@@ -1,8 +1,11 @@
 <h1>Database design</h1>
 <a href="https://dbdiagram.io/d/625cb77a2514c9790345e2b7">Link</a>
 <hr/>
-<h1>API documentation using Postman</h1>
-<a href="https://documenter.getpostman.com/view/15677950/UyxdLpaA">Link</a>
+<h1>API documentation using Swagger</h1>
+<ol>
+    <li>First, run project</li>
+    <li>Visit <b>/api/v1/swagger</b></li>
+</ol>
 <hr/>
 <h1>To run project</h1>
 <ol>
