@@ -7,7 +7,7 @@ export const aboutData = {
 
 export const userData = {
     fullname:"Sapayev Alibek",
-    email:"a@gmail.com",
+    email:"a@gmail.com", 
     password:"123456789",
     img:null,
     role: "admin"
@@ -62,7 +62,7 @@ export const newsData = [
 ]
 
 export const mainInfosData = {
-    email:"natioanl@gmail.com",
+    email:"national@gmail.com",
     phoneNumber:"+998912345678",
     address_uz:"O‘zbekiston, Toshkent sh., Chilonzor tumani, 1-kvartal, 4-uy",
     address_ru:"Узбекистан, Ташкент, Чиланзарский район, 1-й квартал, 4",
@@ -73,8 +73,8 @@ export const mainInfosData = {
     instagram:null,
     telegram:"https://t.me/tuit_online",
     youtube:"https://www.youtube.com/channel/UC62RfVrE7-JfA8JFBMO3WUA",
-    startWork:"09-00",
-    endWork:"18-00"
+    startWork:"09:00",
+    endWork:"18:00"
 }
 
 
