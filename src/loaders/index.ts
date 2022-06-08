@@ -1,4 +1,4 @@
-import express, {Application, Request, Response} from 'express'
+import express, {Application} from 'express'
 import * as dotenv from "dotenv"
 import notFound from "../middlewares/notFound";
 import connectDbAndRedis from "../middlewares/connectDbAndRedis";
