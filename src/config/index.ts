@@ -12,3 +12,4 @@ export const newsPaginationLimit = 10
 export const majorsListLimit=10
 export const defaultLang = "uz"
 export const departmentSubjectDegrees = ["bachelor","master","doctoral"]
+export const supportedLangs = ["uz","ru","en"]
