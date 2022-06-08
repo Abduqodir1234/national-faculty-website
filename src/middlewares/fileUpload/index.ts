@@ -25,4 +25,10 @@ const upload = multer ({
     },
 })
 
+
+export const uploadFile = multer ({
+    storage: store
+})
+
+
 export default upload;
