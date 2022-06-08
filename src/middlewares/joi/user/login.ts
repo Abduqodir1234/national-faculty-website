@@ -15,5 +15,5 @@ export const loginValidator = async (req:Request,res:Response,next:NextFunction)
     }
     catch (e) {
         return res.status(500).json({error:true,message:e})
-    }
-}
+    } 
+}      

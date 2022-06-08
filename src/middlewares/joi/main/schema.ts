@@ -7,15 +7,15 @@ const mainInfosSchema = Joi.object({
     email:Joi.string().email().required(),
     phoneNumber:Joi.string().required(),
     address:Joi.string().required(),
-    coordinate_x:Joi.number(),
-    coordinate_y:Joi.number(),
-    facebook:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/?/),
-    instagram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?instagram.com\/?/),
-    telegram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?telegram.org\/?/),
-    youtube:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?youtube.com\/?/),
+    coordinate_x:Joi.number().empty(""),
+    coordinate_y:Joi.number().empty(""),
+    facebook:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/?/).empty(''),
+    instagram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?instagram.com\/?/).empty(''),
+    telegram:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?telegram.org\/?/).empty(''),
+    youtube:Joi.string().uri().pattern(/(?:(?:http|https):\/\/)?(?:www.)?youtube.com\/?/).empty(''),
     startWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
     endWork:Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required() 
-})
+}) 
 
 const mainInfosSchemaValidator = async (req:RequestWithUser,res:Response,next:NextFunction) => {
     try{
@@ -31,6 +31,8 @@ const mainInfosSchemaValidator = async (req:RequestWithUser,res:Response,next:Ne
         }
         if(req.file?.path)
             req.body2 = {body:{...req.body2?.body,img:req.file.path}}
+        console.log(req.body2);
+        
         return next()
     } catch(e){
         return res.status(500).json({error:true,message:e})

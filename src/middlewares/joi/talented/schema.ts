@@ -28,4 +28,4 @@ export const talentedSchemaValidation = async (req:RequestWithUser,res:Response,
     } catch(e){
         return res.status(500).json({error:true,message:e})
     }
-}
+}  

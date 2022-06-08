@@ -41,4 +41,4 @@ const departmentMajorsCreateValidation = async (req:Request,res:Response,next:Ne
     }
 }
 
-export default departmentMajorsCreateValidation;
+export default departmentMajorsCreateValidation; 
