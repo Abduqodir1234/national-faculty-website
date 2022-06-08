@@ -1,0 +1,323 @@
+# /api/v1/contest/<lang>
+#------Methods---------
+# POST
+# GET
+/contest/{lang}:
+# POST method
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Contest Create API"
+    operationId: "uploadFile"
+    tags:
+    - Contest APIs
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/definitions/Contest"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum:
+        - "uz"
+        - "ru"
+        - "en"
+    responses:
+      201:
+        description: "Created"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "created"
+                data:
+                  type: "object"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    summary: "Contest Get API"
+    tags:
+    - "Contest APIs"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "string"
+      default: "uz"
+    - name: "title"
+      required: false
+      description: "Filter by title"
+      type: "string"
+      in: "query"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "array"
+                  default: []
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+# /api/v1/contest/<contestId>/<lang>
+#------Methods---------
+# DELETE
+# GET
+# PATCH
+/contest/{contestId}/{lang}:
+  # PATCH method
+  patch:
+    summary: "Contest Update API"
+    tags:
+    - "Contest APIs"
+    security:
+    - bearerAuth: []
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/definitions/Contest"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "contestId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Contest Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # DELETE method
+  delete:
+    summary: "Contest Delete API"
+    security:
+    - bearerAuth: []
+    tags:
+    - "Contest APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "contestId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Contest Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Deleted"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # GET method
+  get:
+    summary: "Contest GET by id API"
+    tags:
+    - "Contest APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "contestId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Contest Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "object"
+                  default: {}
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+
+
+    

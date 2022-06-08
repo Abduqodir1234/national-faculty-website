@@ -1,0 +1,42 @@
+definitions:
+    Resource: 
+      type: "object"
+      properties:
+        title: 
+          type: "string"
+          message: "Title of Resource"
+        desc: 
+          type: "string"
+          message: "Description of Resource"
+        categoryId: 
+          type: "string"
+          message: "Category of Resource"
+        file: 
+          type: "string"
+          format: "binary"
+          message: "Category of Resource"
+      required:
+      - title
+      - desc
+      - categoryId
+      - file
+    ResourceUpdate: 
+      type: "object"
+      properties:
+        title: 
+          type: "string"
+          message: "Title of Resource"
+        desc: 
+          type: "string"
+          message: "Description of Resource"
+        categoryId: 
+          type: "string"
+          message: "Category of Resource"
+        file: 
+          type: "string"
+          format: "binary"
+          message: "Category of Resource"
+      required:
+      - title
+      - desc
+      - categoryId

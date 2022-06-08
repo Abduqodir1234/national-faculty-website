@@ -1,0 +1,23 @@
+definitions:
+   Adminstration: 
+      type: "object"
+      properties:
+        teacherId: 
+          type: "string"
+          message: "Teacher Id"
+        departmentId: 
+          type: "string"
+          message: "Department Id"
+        reception_time_starts:
+          type: "string"
+          message: "When it starts"
+          default: "08:00"
+        reception_time_ends:
+          type: "string"
+          default: "18:00"
+          message: "When it ends"
+      required:
+      - teacherId
+      - departmentId
+      - reception_time_starts
+      - reception_time_ends

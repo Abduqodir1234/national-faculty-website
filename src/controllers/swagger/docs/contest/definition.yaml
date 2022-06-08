@@ -1,0 +1,27 @@
+definitions:
+   Contest: 
+      type: "object"
+      properties:
+        title:
+          type: "string"
+          message: "Title of contest"
+          
+        desc:
+          type: "string"
+          message: "Description for a contest"
+          
+        img:
+          type: "string"
+          format: "binary"
+          message: "Main image of contest"
+          
+        date:
+          type: "string"
+          message: "When this contest happened"
+          format: "date"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+      required:
+      - title
+      - desc
+      - img
+      - date

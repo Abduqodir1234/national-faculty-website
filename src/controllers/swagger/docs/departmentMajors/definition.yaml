@@ -1,0 +1,24 @@
+definitions:
+   DepartmentMajors: 
+      type: "object"
+      properties:
+        majorId:
+          type: "string"
+          message: "Major Id"
+          
+        degree:
+          type: "string"
+          message: "Degree"
+          
+        departmentId:
+          type: "string"
+          message: "Department Id"
+          
+        code:
+          type: "string"
+          message: "Code of message"
+      required:
+      - majorId
+      - departmentId
+      - degree
+      - code

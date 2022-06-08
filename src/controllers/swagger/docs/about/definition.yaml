@@ -1,0 +1,9 @@
+definitions:
+   About: 
+      type: "object"
+      properties:
+        desc: 
+          type: "string"
+          message: "Description about Faculty"
+      required:
+      - desc

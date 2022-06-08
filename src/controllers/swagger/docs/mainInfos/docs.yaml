@@ -1,0 +1,188 @@
+# /api/v1/main/infos/<lang>
+#------Methods---------
+# POST
+# GET
+# PATCH
+/main/infos/{lang}:
+  # POST method
+  post:
+    security:
+    - bearerAuth: []
+    tags:
+    - Main Info APIs
+    summary: "Create Main Infos us if it does not exist"
+    requestBody:
+      description: "Request Body"
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+              $ref: '#/definitions/MainInfos'
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum: 
+          - "uz"
+          - "ru"
+          - "en"
+        default: "uz"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    tags:
+    - Main Info APIs
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum: 
+          - "uz"
+          - "ru"
+          - "en"
+        default: "uz"
+    summary: Main Infos Get API
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json" 
+    responses:
+      200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                data:
+                  $ref: "#/definitions/MainInfos"
+      400:
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error:
+                  type: "boolean"
+                  description: "Error happened or not"
+                  default: true
+                message:
+                  type: "string"
+                  enum:
+                  - "Lang is not supported"
+                  - "Lang is not provided"
+                  default: "Lang is not supported"
+  # PATCH method
+  patch:
+    tags:
+    - "Main Info APIs"
+    summary: "Main Infos Update API"
+    security:
+      - bearerAuth: []   
+    requestBody:
+      description: "Request Body"
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+              $ref: '#/definitions/MainInfos'
+    parameters:
+    - name: "lang"
+      in: "path"
+      default: "uz"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      items:
+        type: "string"
+        enum: 
+          - "uz"
+          - "ru"
+          - "en"
+        default: "uz"
+    responses:
+       200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+       400:
+        description: "Bad request"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "\"{value}\" is required"
+       403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+          

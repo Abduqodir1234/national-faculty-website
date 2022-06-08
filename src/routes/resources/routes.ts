@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express";
 import ResourceController from "../../controllers/resources";
+import { uploadFile } from "../../middlewares/fileUpload";
 import resourcesSchemaValidation from "../../middlewares/joi/resources/schema";
+import resourcesUpdateSchemaValidation from "../../middlewares/joi/resources/update";
 import langChecker from "../../middlewares/langChecker";
 import { RequestWithUser } from "../../middlewares/types/RequestWithUser";
 import verifyToken from "../../middlewares/verifyToken";
@@ -11,6 +13,7 @@ resourcesRoutes.route("/:lang")
     .post(
         langChecker,
         verifyToken,
+        uploadFile.single("file"),
         resourcesSchemaValidation,
         (req:RequestWithUser,res:Response) => controller.create(req,res)
     )
@@ -28,7 +31,7 @@ resourcesRoutes.route("/:id/:lang")
     .patch(
         langChecker,
         verifyToken,
-        resourcesSchemaValidation,
+        resourcesUpdateSchemaValidation,
         (req:RequestWithUser,res:Response) => controller.update(req,res)
     )
     .delete(

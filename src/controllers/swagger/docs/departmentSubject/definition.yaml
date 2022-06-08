@@ -1,0 +1,20 @@
+definitions:
+   DepartmentSubject: 
+      type: "object"
+      properties:
+        subjectId:
+          type: "string"
+          message: "Subject Id"
+          
+        degree:
+          type: "string"
+          message: "Degree"
+          
+        departmentId:
+          type: "string"
+          message: "Department Id"
+
+      required:
+      - subjectId
+      - departmentId
+      - degree

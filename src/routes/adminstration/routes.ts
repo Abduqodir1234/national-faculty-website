@@ -8,7 +8,7 @@ const adminstrationRoutes = Router()
 const controller = new AdminstrationController()
 
 adminstrationRoutes.route('/:lang')
-    .post(
+    .post( 
         langChecker,
         verifyToken,
         adminstrationsValidation,
@@ -37,4 +37,4 @@ adminstrationRoutes.route('/:id/:lang')
         (req:Request,res:Response) => controller.get(req,res)
     )
 
-export default adminstrationRoutes;
+export default adminstrationRoutes;         

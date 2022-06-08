@@ -1,0 +1,325 @@
+# /api/v1/department/subject/<lang>
+#------Methods---------
+# POST
+# GET
+/department/subject/{lang}:
+# POST method
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Department Subject Create API"
+    operationId: "uploadFile"
+    tags:
+    - Department Subject APIs
+    requestBody:
+      description: "Body for send to backend"
+      content:
+         application/json:
+          schema:
+            $ref: "#/definitions/DepartmentSubject"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum:
+        - "uz"
+        - "ru"
+        - "en"
+    responses:
+      201:
+        description: "Created"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "created"
+                data:
+                  type: "object"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    summary: "Department Subject Get API"
+    tags:
+    - "Department Subject APIs"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "string"
+      default: "uz"
+    - name: "subjectId"
+      required: false
+      description: "Filter by subjectId"
+      type: "string"
+      in: "query"
+    - name: "departmentId"
+      required: false
+      description: "Filter by departmentId"
+      type: "string"
+      in: "query"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "array"
+                  default: []
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+# /api/v1/department/subject/<departmentSubjectId>/<lang>
+#------Methods---------
+# DELETE
+# GET
+# PATCH
+/department/subject/{departmentSubjectId}/{lang}:
+  # PATCH method
+  patch:
+    summary: "Department Subject Update API"
+    tags:
+    - "Department Subject APIs"
+    security:
+    - bearerAuth: []
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/DepartmentSubject"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "departmentSubjectId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Department Subject Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # DELETE method
+  delete:
+    summary: "Department Subject Delete API"
+    security:
+    - bearerAuth: []
+    tags:
+    - "Department Subject APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "departmentSubjectId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Department Subject Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Deleted"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # GET method
+  get:
+    summary: "Department Subject GET by id API"
+    tags:
+    - "Department Subject APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "departmentSubjectId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Department Subject Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "object"
+                  default: {}
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"

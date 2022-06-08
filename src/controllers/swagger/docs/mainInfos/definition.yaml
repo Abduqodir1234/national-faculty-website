@@ -1,0 +1,65 @@
+definitions:
+   MainInfos: 
+      type: "object"
+      properties:
+        img:
+          type: "string"
+          format: "binary"
+          message: "logo"
+          
+        email:
+          type: "string"
+          message: "Email"
+          
+        phoneNumber:
+          type: "string"
+          message: "Phone Number"
+          
+        address:
+          type: "string"
+          message: "Address"
+          
+        coordinate_x:
+          type: "string"
+          message: "Coordinate x"
+        
+        coordinate_y:
+          type: "string"
+          message: "Coordinate y"
+
+        facebook:
+          type: "string"
+          message: "Facebook"
+
+        instagram:
+          type: "string"
+          message: "Instagram"
+        
+        telegram:
+          type: "string"
+          message: "Telegram"
+        
+        youtube:
+          type: "string"
+          message: "Youtube"
+
+        startWork:
+          type: "string"
+          message: "Start Work"
+
+        endWork:
+          type: "string"
+          message: "End Work"
+
+      required:
+      - email
+      - phoneNumber
+      - address
+      - startWork
+      - endWork
+      - coordinate_x
+      - coordinate_y
+      - facebook
+      - instagram
+      - telegram
+      - youtube

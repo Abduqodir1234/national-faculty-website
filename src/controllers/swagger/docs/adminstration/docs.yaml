@@ -1,0 +1,326 @@
+# /api/v1/adminstration/<lang>
+#------Methods---------
+# POST
+# GET
+/adminstration/{lang}:
+# POST method
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Adminstration Create API"
+    tags:
+    - Adminstration APIs
+    requestBody: 
+      description: "Request body"
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/Adminstration"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum:
+        - "uz"
+        - "ru"
+        - "en"
+    responses:
+      201:
+        description: "Created"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "created"
+                data:
+                  type: "object"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    summary: "Adminstration Get API"
+    tags:
+    - "Adminstration APIs"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "string"
+      default: "uz"
+    - name: "teacherId"
+      required: false
+      description: "Filter by teacherId"
+      type: "string"
+      in: "query"
+    - name: "departmentId"
+      required: false
+      description: "Filter by department id"
+      type: "string"
+      in: "query"
+    responses:
+      200:
+        description: "ok"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "array"
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+# /api/v1/adminstration/<adminstrationId>/<lang>
+#------Methods---------
+# DELETE
+# GET
+# PATCH
+/adminstration/{adminstrationId}/{lang}:
+  # PATCH method
+  patch:
+    summary: "Adminstration Update API"
+    tags:
+    - "Adminstration APIs"
+    security:
+    - bearerAuth: []
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "adminstrationId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Adminstration Id"
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/Adminstration"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # DELETE method
+  delete:
+    summary: "Adminstration Delete API"
+    security:
+    - bearerAuth: []
+    tags:
+    - "Adminstration APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "adminstrationId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Adminstration Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Deleted"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # GET method
+  get:
+    summary: "Adminstration GET by id API"
+    tags:
+    - "Adminstration APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "adminstrationId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Adminstration Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "object"
+                  default: {}
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+
+
+    

@@ -1,0 +1,52 @@
+definitions:
+    News: 
+      type: "object"
+      properties:
+        title: 
+          type: "string"
+          message: "title of major"
+        short_desc: 
+          type: "string"
+          message: "Short description of major"
+        desc: 
+          type: "string"
+          message: "Full description of major"
+        img: 
+          type: "string"
+          format: "binary"
+          message: "Image of major"
+        date: 
+          type: "string"
+          message: "Name of major"
+          format: "date"
+      required:
+      - title
+      - short_desc
+      - desc
+      - img
+      - date
+    NewsUpdate: 
+      type: "object"
+      properties:
+        title: 
+          type: "string"
+          message: "title of major"
+        short_desc: 
+          type: "string"
+          message: "Short description of major"
+        desc: 
+          type: "string"
+          message: "Full description of major"
+        img: 
+          type: "string"
+          format: "binary"
+          message: "Image of major"
+        date: 
+          type: "string"
+          message: "Name of major"
+          format: "date"
+      required:
+      - title
+      - short_desc
+      - desc
+      - date

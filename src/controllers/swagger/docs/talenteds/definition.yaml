@@ -1,0 +1,76 @@
+definitions:
+    TalentedStudents: 
+      type: "object"
+      properties:
+        fullname: 
+          type: "string"
+          message: "Fullname of Student"
+        birthdate: 
+          type: "string"
+          format: "date"
+          message: "Birthdate of Student"
+        address: 
+          type: "string"
+          message: "Address of Student"
+        title: 
+          type: "string"
+          message: "Title of Student"
+        majorId: 
+          type: "string"
+          message: "Major of Student"
+        specialization: 
+          type: "string"
+          message: "Specialization of Student"
+        desc: 
+          type: "string"
+          message: "Full description of Student"
+        img: 
+          type: "string"
+          format: "binary"
+          message: "Image of Student"
+      required:
+      - fullname
+      - birthdate
+      - address
+      - title
+      - majorId
+      - specialization
+      - img
+      - desc
+    TalentedStudentsUpdate: 
+      type: "object"
+      properties:
+        fullname: 
+          type: "string"
+          message: "Fullname of Student"
+        birthdate: 
+          type: "string"
+          format: "date"
+          message: "Birthdate of Student"
+        address: 
+          type: "string"
+          message: "Address of Student"
+        title: 
+          type: "string"
+          message: "Title of Student"
+        majorId: 
+          type: "string"
+          message: "Major of Student"
+        specialization: 
+          type: "string"
+          message: "Specialization of Student"
+        desc: 
+          type: "string"
+          message: "Full description of Student"
+        img: 
+          type: "string"
+          format: "binary"
+          message: "Image of Student"
+      required:
+      - fullname
+      - birthdate
+      - address
+      - title
+      - majorId
+      - specialization
+      - desc

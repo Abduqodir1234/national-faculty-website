@@ -1,0 +1,9 @@
+definitions:
+   Majors: 
+      type: "object"
+      properties:
+        name: 
+          type: "string"
+          message: "Name of major"
+      required:
+      - name

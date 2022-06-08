@@ -1,0 +1,24 @@
+definitions:
+   Department: 
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          message: "name"
+          
+        dean:
+          type: "string"
+          message: "Dean"
+          
+        desc:
+          type: "string"
+          message: "Full description of department"
+
+        address:
+          type: "string"
+          message: "Address"
+          
+      required:
+      - name
+      - desc
+      - address

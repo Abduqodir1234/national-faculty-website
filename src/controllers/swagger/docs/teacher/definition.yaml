@@ -1,0 +1,54 @@
+definitions:
+    Teacher: 
+      type: "object"
+      properties:
+        fullname: 
+          type: "string"
+          message: "Fullname of Student"
+        title: 
+          type: "string"
+          message: "Title of Student"
+        educationTitle: 
+          type: "string"
+          message: "Education title of Student"
+        birthdate: 
+          type: "string"
+          format: "date"
+          message: "Birthdate of Student"
+        passportSeries: 
+          type: "string"
+          message: "Passport Series of Student"
+        passportNumber: 
+          type: "string"
+          message: "Passport Number of Student"
+        email: 
+          type: "string"
+          message: "Email of Student"
+        is_MA: 
+          type: "boolean"
+          message: "Is student member of adminstration "
+        study_foreign: 
+          type: "boolean"
+          message: "have student ever studied abroad?"
+        departmentId: 
+          type: "string"
+          message: "Department of Student"
+        dateOfEntry: 
+          type: "string"
+          message: "Date Of Entry of Student"
+        img: 
+          type: "string"
+          format: "binary"
+          message: "Image of Student"
+      required:
+      - fullname
+      - title
+      - educationTitle
+      - birthdate
+      - passportSeries
+      - passportNumber
+      - email
+      - is_MA
+      - study_foreign
+      - departmentId
+      - dateOfEntry

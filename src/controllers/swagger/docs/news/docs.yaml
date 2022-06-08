@@ -1,0 +1,328 @@
+# /api/v1/news/<lang>
+#------Methods---------
+# POST
+# GET
+/news/{lang}:
+# POST method
+  post:
+    security:
+    - bearerAuth: []
+    summary: "News Create API"
+    operationId: "uploadFile"
+    tags:
+    - News APIs
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/definitions/News"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum:
+        - "uz"
+        - "ru"
+        - "en"
+    responses:
+      201:
+        description: "Created"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "created"
+                data:
+                  type: "object"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    summary: "News Get API"
+    tags:
+    - "News APIs"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "string"
+      default: "uz"
+    - name: "title"
+      required: false
+      description: "Filter by title"
+      type: "string"
+      in: "query"
+    - name: "short_desc"
+      required: false
+      description: "Filter by short_desc"
+      type: "string"
+      in: "query"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "array"
+                  default: []
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+# /api/v1/news/<newsId>/<lang>
+#------Methods---------
+# DELETE
+# GET
+# PATCH
+/news/{newsId}/{lang}:
+  # PATCH method
+  patch:
+    summary: "News Update API"
+    tags:
+    - "News APIs"
+    security:
+    - bearerAuth: []
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/definitions/NewsUpdate"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "newsId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "News Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # DELETE method
+  delete:
+    summary: "News Delete API"
+    security:
+    - bearerAuth: []
+    tags:
+    - "News APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "newsId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "News Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Deleted"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # GET method
+  get:
+    summary: "News GET by id API"
+    tags:
+    - "News APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "newsId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "News Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "object"
+                  default: {}
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+
+
+    

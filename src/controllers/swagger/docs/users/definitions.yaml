@@ -1,0 +1,61 @@
+definitions:
+    Register: 
+      type: "object"
+      properties:
+        fullname: 
+          type: "string"
+          message: "Fullname of subject"
+        email: 
+          type: "string"
+          message: "Fullname of subject"
+        password: 
+          type: "string"
+          message: "Fullname of subject"
+        confirm_password: 
+          type: "string"
+          message: "Fullname of subject"
+        role: 
+          type: "string"
+          enum: ["admin","user","teacher"]
+          default: "admin"
+          message: "Fullname of subject"
+        img:
+          type: "string"
+          format: "binary"
+          message: "Image of user"
+      required:
+      - fullname
+      - email
+      - password
+      - confirm_password
+      - img
+    UserUpdate:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          message: "Email of user"
+        fullname:
+          type: "string"
+          message: "Fullname of user"
+        img:
+          type: "string"
+          format: "binary"
+          message: "Image of user"
+      required:
+      - email
+      - fullname
+    Login:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          message: "Email of user"
+        password:
+          type: "string"
+          message: "Password of user"
+      required:
+      - email
+      - password
+
+

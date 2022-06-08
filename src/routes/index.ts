@@ -14,6 +14,7 @@ import resourceCategoryRoutes from "./resourceCategory/routes";
 import resourcesRoutes from "./resources/routes";
 import aboutRoutes from "./about/routes";
 import studentRoutes from "./talented/routes";
+import swaggerRouter from "./swagger/routes";
 
 const IndexRouter = Router()
 
@@ -30,9 +31,9 @@ IndexRouter.use("/majors/",majorRoutes)
 IndexRouter.use("/contest/",contestRoutes)
 IndexRouter.use("/resource/category",resourceCategoryRoutes)
 IndexRouter.use("/resources",resourcesRoutes)
-IndexRouter.use("/about",aboutRoutes)
+IndexRouter.use("/about",aboutRoutes)  
 IndexRouter.use("/students/talented",studentRoutes)
-
-
-
+IndexRouter.use("/swagger",swaggerRouter)   
+                        
+            
 export default IndexRouter;

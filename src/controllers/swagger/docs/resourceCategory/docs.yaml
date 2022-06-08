@@ -1,0 +1,323 @@
+# /api/v1/resource/category/<lang>
+#------Methods---------
+# POST
+# GET
+/resource/category/{lang}:
+# POST method
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Resource Category Create API"
+    operationId: "uploadFile"
+    tags:
+    - Resource Category APIs
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/ResourceCategory"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "array"
+      default: "uz"
+      items:
+        type: "string"
+        enum:
+        - "uz"
+        - "ru"
+        - "en"
+    responses:
+      201:
+        description: "Created"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "created"
+                data:
+                  type: "object"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+  # GET method
+  get:
+    summary: "Resource Category Get API"
+    tags:
+    - "Resource Category APIs"
+    parameters:
+    - name: "lang"
+      in: "path"
+      description: "Only uz, ru, en langs are supported"
+      required: true
+      type: "string"
+      default: "uz"
+    - name: "name"
+      required: false
+      description: "Filter by name"
+      type: "string"
+      in: "query"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "array"
+                  default: []
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+# /api/v1/resource/category/<resourceCategoryId>/<lang>
+#------Methods---------
+# DELETE
+# GET
+# PATCH
+/resource/category/{resourceCategoryId}/{lang}:
+  # PATCH method
+  patch:
+    summary: "Resource Category Update API"
+    tags:
+    - "Resource Category APIs"
+    security:
+    - bearerAuth: []
+    requestBody:
+      description: "Body for send to backend"
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/ResourceCategory"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "resourceCategoryId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Resource Category Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Updated"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # DELETE method
+  delete:
+    summary: "Resource Category Delete API"
+    security:
+    - bearerAuth: []
+    tags:
+    - "Resource Category APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "resourceCategoryId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Resource Category Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: "Deleted"
+                data:
+                  type: "array"
+                  default: null
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+  # GET method
+  get:
+    summary: "Resource Category GET by id API"
+    tags:
+    - "Resource Category APIs"
+    parameters:
+    - name: "lang"
+      required: true
+      type: "string"
+      default: "uz"
+      in: "path"
+      description: "Only uz, ru, en languages are supported"
+    - name: "resourceCategoryId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "Resource Category Id"
+    responses:
+      200:
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: false
+                message:
+                  type: "string"
+                  default: ""
+                data:
+                  type: "object"
+                  default: {}
+      400:
+        description: "Bad request"
+      
+      403:
+        description: "Forbidden"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "No token"
+      404:
+        description: "Not Found"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                error: 
+                  type: "boolean"
+                  default: true
+                message:
+                  type: "string"
+                  default: "Not found"
+
+
+    
