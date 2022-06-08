@@ -40,6 +40,9 @@ const resourcesSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"resourcecategories"
     },
+    file:{
+        type:String
+    }
 })
 
 const Resources = model("resources",resourcesSchema)

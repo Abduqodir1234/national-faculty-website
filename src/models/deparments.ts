@@ -31,12 +31,12 @@ const deparmentsSchema = new Schema({
         default:null
     },
     desc_ru:{
-        type:String,
+        type:String, 
         default:null
     },
     desc_en:{
-        type:String,
-        default:null
+        type:String,  
+        default:null 
     },
     address_uz:{
         type:String,

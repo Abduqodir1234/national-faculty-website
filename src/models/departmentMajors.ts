@@ -34,4 +34,4 @@ const departMentMajorsSchema = new Schema({
 
 const DepartmentMajors = model("departmentMajors",departMentMajorsSchema)
 
-export default DepartmentMajors;
+export default DepartmentMajors; 

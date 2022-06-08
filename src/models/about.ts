@@ -8,7 +8,7 @@ export interface AboutDocument extends Document{
 
 const aboutSchema = new Schema({
     desc_uz:{
-        type:String,
+        type:String, 
         default:null
     },
     desc_ru:{

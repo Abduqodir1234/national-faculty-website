@@ -9,7 +9,7 @@ export interface TeacherDocument extends Document{
     passportSeries:string;
     passportNumber:string;
     email:string;
-    image:string;
+    img:string;
     is_MA:string;
     study_foreign:string;
     departmentId:string;
@@ -31,7 +31,7 @@ const TeacherSchema = new Schema({
     passportSeries:String,
     passportNumber:String,
     email:String,
-    image:String,
+    img:String,
     is_MA:Boolean,
     study_foreign:Boolean,
     departmentId:{

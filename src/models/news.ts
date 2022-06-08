@@ -1,11 +1,10 @@
-import { string } from "joi";
 import {Schema,model,Document} from "mongoose"
 
 export interface NewsDocument extends Document{
     title:string;
     short_desc:string;
     desc:string;
-    photo:string;
+    img:string;
     date:string;
 }
 
