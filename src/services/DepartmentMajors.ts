@@ -91,4 +91,4 @@ class DepartmentMajorsService extends BaseService{
 
 }
 
-export default DepartmentMajorsService;
+export default DepartmentMajorsService; 

@@ -59,5 +59,5 @@ class ContestService extends BaseService{
             return ResponseService.internalServerError(e)
         }
     }
-}
+} 
 export default ContestService;

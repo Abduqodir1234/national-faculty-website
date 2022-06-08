@@ -72,4 +72,4 @@ class NewsService extends BaseService{
     }
 }
 
-export default NewsService
+export default NewsService;

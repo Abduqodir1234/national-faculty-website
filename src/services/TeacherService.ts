@@ -66,4 +66,4 @@ class TeacherService extends BaseService{
 
 
 }
-export default TeacherService
+export default TeacherService;

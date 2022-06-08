@@ -58,4 +58,4 @@ class MajorsService extends BaseService{
     }
 }
 
-export default MajorsService;
+export default MajorsService;  
